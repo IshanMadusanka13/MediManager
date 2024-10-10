@@ -7,6 +7,7 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [medicalHistory, setMedicalHistory] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -17,7 +18,7 @@ const RegisterPage = () => {
       return;
     }
     try {
-      await authService.register(name, email, password);
+      await authService.register(name, email, password, medicalHistory);
       navigate('/login');
     } catch (err) {
       setError('Registration failed');
@@ -49,6 +50,16 @@ const RegisterPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               style={styles.input}
               placeholder="Enter your email"
+            />
+          </div>
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Medical History</label>
+            <input
+              type="text"
+              value={medicalHistory}
+              onChange={(e) => setMedicalHistory(e.target.value)}
+              style={styles.input}
+              placeholder="Enter your Medical History"
             />
           </div>
           <div style={styles.inputGroup}>

@@ -1,8 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaUserMd, FaCalendarAlt, FaChartBar } from 'react-icons/fa';
 
 const HomePage = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, []);
   return (
     <div style={styles.homePage}>
       <main style={styles.mainContent}>
@@ -11,29 +18,38 @@ const HomePage = () => {
           Revolutionizing healthcare management with cutting-edge technology
         </p>
         <div style={styles.featureGrid}>
-          <FeatureCard
-            title="Staff Management"
-            description="Efficiently manage your medical staff with ease"
-            icon={<FaUserMd />}
-            link="/staff"
-          />
-          <FeatureCard
-            title="Smart Scheduling"
-            description="Optimize schedules for maximum efficiency"
-            icon={<FaCalendarAlt />}
-            link="/schedules"
-          />
-          <FeatureCard
-            title="Insightful Analytics"
-            description="Make data-driven decisions with powerful reports"
-            icon={<FaChartBar />}
-            link="/reports"
-          />
+
+          {user.userType == "Staff" && (
+            <div>
+              <FeatureCard
+                title="Staff Management"
+                description="Efficiently manage your medical staff with ease"
+                icon={<FaUserMd />}
+                link="/staff"
+              />
+              <FeatureCard
+                title="Smart Scheduling"
+                description="Optimize schedules for maximum efficiency"
+                icon={<FaCalendarAlt />}
+                link="/schedules"
+              />
+              <FeatureCard
+                title="Insightful Analytics"
+                description="Make data-driven decisions with powerful reports"
+                icon={<FaChartBar />}
+                link="/reports"
+              />
+            </div>
+          )}
+
+          {user.userType == "Patient" && (
+            <div></div>
+          )}
         </div>
-        
+
       </main>
       <footer style={styles.footer}>
-        <p>© 2023 MediManager. All rights reserved.</p>
+        <p>© 2024 MediManager. All rights reserved.</p>
       </footer>
     </div>
   );
