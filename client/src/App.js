@@ -6,6 +6,8 @@ import RegisterPage from './pages/RegisterPage';
 import StaffManagePage from './pages/ManageStaff/StaffManagePage';
 import StaffSchedulePage from './pages/ManageStaff/StaffSchedulePage';
 import ReportPage from './pages/ManageStaff/ReportPage';
+import MakeAppointmentPage from './pages/AppointmentManagement/makeAppointment';
+import AppointmentViwe from './pages/AppointmentManagement/AppointmentView';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -20,6 +22,8 @@ const App = () => {
         <Route path="/staff" element={<StaffManagePage />} />
         <Route path="/schedules" element={<StaffSchedulePage />} />
         <Route path="/reports" element={<ReportPage />} />
+        <Route path="/makeappoinment" element={<MakeAppointmentPage />} />
+        <Route path="/appointmentview" element={<AppointmentViwe />} />
       </Routes>
       <Footer />
     </Router>

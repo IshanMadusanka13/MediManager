@@ -5,7 +5,7 @@ exports.createStaff = async (req, res) => {
   try {
     const staff = new Staff({ name, email, phone, role });
     await staff.save();
-    res.status(201).json({ message: 'Staff member created successfully' });
+    res.status(201).json({ message: 'Staff member created successfully', staffId: staff.staffId });
   } catch (error) {
     res.status(400).json({ message: 'Error creating staff member' });
   }

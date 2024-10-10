@@ -3,13 +3,17 @@ const Appointment = require('../models/Appointment');
 exports.createAppointment = async (req, res) => {
     const { date, time, doctor, patient } = req.body;
     try {
-        const appointment = new Appointment({ date, time, doctor, patient });
-        await appointment.save();
-        res.status(201).json({ message: 'Appointment created successfully' });
+      if (!date || !time || !doctor || !patient) {
+        return res.status(400).json({ message: 'All fields are required' });
+      }
+      const appointment = new Appointment({ date, time, doctor, patient });
+      await appointment.save();
+      res.status(201).json({ message: 'Appointment created successfully', appointment });
     } catch (error) {
-        res.status(400).json({ message: 'Error creating appointment' });
+      console.error('Error creating appointment:', error);
+      res.status(400).json({ message: 'Error creating appointment', error: error.message });
     }
-};
+  };
 
 exports.getAllAppointments = async (req, res) => {
     try {

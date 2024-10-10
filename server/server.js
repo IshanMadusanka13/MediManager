@@ -15,12 +15,18 @@ app.use(express.json());
 const authRoutes = require('./routes/authRoutes');
 const staffRoutes = require('./routes/staffRoutes');
 const scheduleRoutes = require('./routes/scheduleRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/staff', staffRoutes);
 app.use('/api/schedules', scheduleRoutes);
+app.use('/api/appointments', appointmentRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+
+

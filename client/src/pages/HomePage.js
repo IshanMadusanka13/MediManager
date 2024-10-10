@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaUserMd, FaCalendarAlt, FaChartBar } from 'react-icons/fa';
+import { FaUserMd, FaCalendarAlt, FaChartBar, FaCalendarCheck, FaListAlt } from 'react-icons/fa';
 
 const HomePage = () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -17,10 +17,32 @@ const HomePage = () => {
         <p style={styles.subtitle}>
           Revolutionizing healthcare management with cutting-edge technology
         </p>
-        <div style={styles.featureGrid}>
+        
+          {user && user.userType === "Staff" && (
+            <div style={styles.featureGrid}>
+              <FeatureCard
+                title="View Appointments"
+                description="See all scheduled appointments"
+                icon={<FaListAlt />}
+                link="/appointmentview"
+              />
+            </div>
+          )}
 
-          {user.userType == "Staff" && (
-            <div>
+          {user && user.userType === "Patient" && (
+            <div style={styles.featureGrid}>
+              <FeatureCard
+                title="Make Appointment"
+                description="Schedule an appointment with a doctor"
+                icon={<FaCalendarCheck />}
+                link="/make-appointment"
+              />
+              +
+            </div>
+          )}
+
+          {user && user.userType === "HSA" && (
+            <div style={styles.featureGrid}>
               <FeatureCard
                 title="Staff Management"
                 description="Efficiently manage your medical staff with ease"
@@ -41,12 +63,7 @@ const HomePage = () => {
               />
             </div>
           )}
-
-          {user.userType == "Patient" && (
-            <div></div>
-          )}
-        </div>
-
+        
       </main>
       <footer style={styles.footer}>
         <p>© 2024 MediManager. All rights reserved.</p>
@@ -54,9 +71,8 @@ const HomePage = () => {
     </div>
   );
 };
-
 const FeatureCard = ({ title, description, icon, link }) => (
-  <Link to={link} style={styles.featureCard}>
+  <Link to={link} style={styles.featureCard}>    
     <div style={styles.icon}>{icon}</div>
     <h2 style={styles.cardTitle}>{title}</h2>
     <p style={styles.cardDescription}>{description}</p>

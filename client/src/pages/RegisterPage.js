@@ -8,6 +8,8 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [medicalHistory, setMedicalHistory] = useState('');
+  const [userType, setUserType] = useState('Patient');
+  const [staffId, setStaffId] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -18,7 +20,7 @@ const RegisterPage = () => {
       return;
     }
     try {
-      await authService.register(name, email, password, medicalHistory);
+      await authService.register(name, email, password, userType, medicalHistory, staffId);
       navigate('/login');
     } catch (err) {
       setError('Registration failed');
@@ -53,15 +55,40 @@ const RegisterPage = () => {
             />
           </div>
           <div style={styles.inputGroup}>
-            <label style={styles.label}>Medical History</label>
-            <input
-              type="text"
-              value={medicalHistory}
-              onChange={(e) => setMedicalHistory(e.target.value)}
+            <label style={styles.label}>User Type</label>
+            <select
+              value={userType}
+              onChange={(e) => setUserType(e.target.value)}
               style={styles.input}
-              placeholder="Enter your Medical History"
-            />
+            >
+              <option value="Patient">Patient</option>
+              <option value="Staff">Staff</option>
+            </select>
           </div>
+          {userType === 'Patient' && (
+            <div style={styles.inputGroup}>
+              <label style={styles.label}>Medical History</label>
+              <input
+                type="text"
+                value={medicalHistory}
+                onChange={(e) => setMedicalHistory(e.target.value)}
+                style={styles.input}
+                placeholder="Enter your Medical History"
+              />
+            </div>
+          )}
+          {userType === 'Staff' && (
+            <div style={styles.inputGroup}>
+              <label style={styles.label}>Staff ID</label>
+              <input
+                type="text"
+                value={staffId}
+                onChange={(e) => setStaffId(e.target.value)}
+                style={styles.input}
+                placeholder="Enter your Staff ID"
+              />
+            </div>
+          )}
           <div style={styles.inputGroup}>
             <label style={styles.label}>Password</label>
             <input

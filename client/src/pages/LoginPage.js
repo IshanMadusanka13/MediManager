@@ -11,7 +11,8 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await authService.login(email, password);
+      const response = await authService.login(email, password);
+      localStorage.setItem('user', JSON.stringify(response.user));
       navigate('/');
     } catch (err) {
       console.error('Login error:', err);
@@ -132,5 +133,6 @@ const styles = {
     textDecoration: 'none',
   },
 };
+
 
 export default LoginPage;

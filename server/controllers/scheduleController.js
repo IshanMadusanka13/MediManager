@@ -13,7 +13,7 @@ exports.createSchedule = async (req, res) => {
 
 exports.getAllSchedules = async (req, res) => {
   try {
-    const schedules = await Schedule.find().populate('staffId', 'name email phone role');
+    const schedules = await Schedule.find().populate('staffId', 'name email phone role staffId');
     res.status(200).json(schedules);
   } catch (error) {
     res.status(400).json({ message: 'Error fetching schedules' });
