@@ -1,11 +1,26 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FaHospital, FaUserMd, FaCalendarAlt, FaChartBar, FaSignInAlt, FaUserPlus, FaBars, FaTimes } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaHospital, FaUserMd, FaCalendarAlt, FaChartBar, FaSignInAlt, FaUserPlus, FaBars, FaTimes, FaCalendarCheck, FaListAlt } from 'react-icons/fa';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState('');
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log('Navbar component mounted');
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      setUser(user);
+    }
+  }, [navigate]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+  };
 
   return (
     <nav style={styles.navbar}>
@@ -17,22 +32,60 @@ const Navbar = () => {
         <div style={styles.menuIcon} onClick={toggleMenu}>
           {isOpen ? <FaTimes /> : <FaBars />}
         </div>
-        <ul style={{...styles.navMenu, ...(isOpen ? styles.navMenuActive : {})}}>
-          <li style={styles.navItem}>
-            <Link to="/staff" style={styles.navLink}><FaUserMd /> Staff</Link>
-          </li>
-          <li style={styles.navItem}>
-            <Link to="/schedules" style={styles.navLink}><FaCalendarAlt /> Schedules</Link>
-          </li>
-          <li style={styles.navItem}>
-            <Link to="/reports" style={styles.navLink}><FaChartBar /> Reports</Link>
-          </li>
-          <li style={styles.navItem}>
-            <Link to="/login" style={styles.navLink}><FaSignInAlt /> Login</Link>
-          </li>
-          <li style={styles.navItem}>
-            <Link to="/register" style={styles.navLink}><FaUserPlus /> Register</Link>
-          </li>
+        <ul style={{ ...styles.navMenu, ...(isOpen ? styles.navMenuActive : {}) }}>
+          {user && user.userType === "Staff" && (
+            <>
+
+              <li style={styles.navItem}>
+                <Link to="/makeappoinment" style={styles.navLink}><FaCalendarCheck /> Make Appointment</Link>
+              </li>
+              <li style={styles.navItem}>
+                <Link to="/appointmentview" style={styles.navLink}><FaListAlt /> View Appointments</Link>
+              </li>
+            </>
+          )}
+          {user && user.userType === "Patient" && (
+            <>
+              <li style={styles.navItem}>
+                <Link to="/makeappoinment" style={styles.navLink}><FaCalendarCheck /> Make Appointment</Link>
+              </li>
+              <li style={styles.navItem}>
+                <Link to="/appointmentview" style={styles.navLink}><FaListAlt /> My Appointments</Link>
+              </li>
+            </>
+          )}
+          {user && user.userType === "HSA" && (
+            <>
+              <li style={styles.navItem}>
+                <Link to="/staff" style={styles.navLink}><FaUserMd /> Staff</Link>
+              </li>
+              <li style={styles.navItem}>
+                <Link to="/schedules" style={styles.navLink}><FaCalendarAlt /> Schedules</Link>
+              </li>
+              <li style={styles.navItem}>
+                <Link to="/reports" style={styles.navLink}><FaChartBar /> Reports</Link>
+              </li>
+            </>
+          )}
+          {user ? (
+            <li style={styles.navItem}>
+              <button onClick={handleLogout} style={styles.navButton}>Logout</button>
+            </li>
+          ) : (
+            <li style={styles.navItem}>
+              <Link to="/login" style={styles.navLink}><FaSignInAlt /> Login</Link>
+            </li>
+          )}
+          {!user && (
+            <>
+
+              <li style={styles.navItem}>
+                <Link to="/register" style={styles.navLink}><FaUserPlus /> Register</Link>
+              </li>
+
+            </>
+          )}
+
         </ul>
       </div>
     </nav>
@@ -82,6 +135,16 @@ const styles = {
   },
   navItem: {
     margin: '0 1rem',
+  },
+  navButton: {
+    backgroundColor: '#e74c3c',
+    color: '#fff',
+    border: 'none',
+    padding: '0.5rem 1rem',
+    borderRadius: '4px',
+    fontSize: '1rem',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
   },
   navLink: {
     color: '#fff',

@@ -20,7 +20,9 @@
 
     const fetchSchedules = async () => {
       const data = await scheduleService.getAllSchedules();
-      setSchedules(data);
+      const validSchedules = data.filter(schedule => schedule && schedule.staffId);
+      setSchedules(validSchedules);
+      console.log(validSchedules);
     };
 
     const fetchStaff = async () => {
@@ -74,7 +76,7 @@
             <option value="">Select Staff Member</option>
             {staff.map((member) => (
               <option key={member._id} value={member._id}>
-                {member.name}
+                {member.staffId} : {member.name}
               </option>
             ))}
           </select>
@@ -110,15 +112,18 @@
         <div style={styles.scheduleList}>
           <h2 style={styles.subtitle}>Schedule List</h2>
           {schedules.map((schedule) => (
-            <div key={schedule._id} style={styles.scheduleCard}>
-              <h3>{schedule.staffId.name}</h3>
-              <p>Date: {new Date(schedule.date).toLocaleDateString()}</p>
-              <p>Shift: {schedule.shiftStart} - {schedule.shiftEnd}</p>
-              <div style={styles.cardActions}>
-                <button style={styles.editButton} onClick={() => handleEdit(schedule)}>Edit</button>
-                <button style={styles.deleteButton} onClick={() => handleDelete(schedule._id)}>Delete</button>
+            schedule && schedule.staffId && (
+              <div key={schedule._id} style={styles.scheduleCard}>
+                <h3>Staff ID : {schedule.staffId.staffId}</h3>
+                <p>Name : {schedule.staffId.name}</p>
+                <p>Date: {new Date(schedule.date).toLocaleDateString()}</p>
+                <p>Shift: {schedule.shiftStart} - {schedule.shiftEnd}</p>
+                <div style={styles.cardActions}>
+                  <button style={styles.editButton} onClick={() => handleEdit(schedule)}>Edit</button>
+                  <button style={styles.deleteButton} onClick={() => handleDelete(schedule._id)}>Delete</button>
+                </div>
               </div>
-            </div>
+            )
           ))}
         </div>
       </div>

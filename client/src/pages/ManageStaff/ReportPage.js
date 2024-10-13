@@ -4,6 +4,7 @@
   import 'jspdf-autotable';
   import staffService from '../../services/staffService';
   import scheduleService from '../../services/scheduleService';
+  //import Staff from '../../../../server/models/Staff';
   //import logo from '../../assets/hospital_logo.png';
 
   const ReportPage = () => {
@@ -28,16 +29,18 @@
       setLoading(true);
       try {
         const schedules = await scheduleService.getAllSchedules();
-        const detailedSchedules = schedules.map(schedule => ({
-          ...schedule,
-          staffName: schedule.staffId.name,
-          staffEmail: schedule.staffId.email,
-          staffPhone: schedule.staffId.phone,
-          staffRole: schedule.staffId.role,
-          staffId: schedule.staffId._id
-        }));
+        const detailedSchedules = schedules
+          .filter(schedule => schedule && schedule.staffId)
+          .map(schedule => ({
+            ...schedule,
+            staffId: schedule.staffId.staffId || 'N/A',
+            staffName: schedule.staffId.name || 'N/A',
+            staffEmail: schedule.staffId.email || 'N/A',
+            staffPhone: schedule.staffId.phone || 'N/A',
+            staffRole: schedule.staffId.role || 'N/A',
+          }));
         setScheduleReport(detailedSchedules);
-        console.log('Schedule Data:', detailedSchedules); 
+        console.log('Schedule Data:', detailedSchedules);
       } catch (error) {
         console.error('Error generating schedule report', error);
       } finally {
@@ -67,8 +70,8 @@
       // Define table content
       if (reportType === 'staff') {
         doc.autoTable({
-          head: [['Name', 'Email', 'Phone', 'Role']],
-          body: staffReport.map(staff => [staff.name, staff.email, staff.phone, staff.role]),
+          head: [['Staff ID','Name', 'Email', 'Phone', 'Role']],
+          body: staffReport.map(staff => [staff.staffId,staff.name,staff.name, staff.email, staff.phone, staff.role]),
           startY: 70,
           theme: 'grid',
           styles: { fillColor: [224, 235, 255], textColor: '#333' }, // Light blue rows
@@ -78,8 +81,9 @@
         });
       } else {
         doc.autoTable({
-          head: [['Staff Name', 'Email', 'Phone', 'Role', 'Date', 'Shift Start', 'Shift End']],
+          head: [['Staff ID', 'Staff Name', 'Email', 'Phone', 'Role', 'Date', 'Shift Start', 'Shift End']],
           body: scheduleReport.map(schedule => [
+            schedule.staffId,
             schedule.staffName,
             schedule.staffEmail,
             schedule.staffPhone,
@@ -135,26 +139,27 @@
         {staffReport.length > 0 && (
           <ReportTable
             title="Staff Report"
-            headers={['Name', 'Email', 'Phone', 'Role']}
-            data={staffReport.map(staff => [staff.name, staff.email, staff.phone, staff.role])}
+            headers={['Staff ID','Name', 'Email', 'Phone', 'Role']}
+            data={staffReport.map(staff => [staff.staffId,staff.name, staff.email, staff.phone, staff.role])}
           />
         )}
 
-        {scheduleReport.length > 0 && (
-          <ReportTable
-            title="Schedule Report"
-            headers={['Staff Name', 'Email', 'Phone', 'Role', 'Date', 'Shift Start', 'Shift End']}
-            data={scheduleReport.map(schedule => [
-              schedule.staffName,
-              schedule.staffEmail,
-              schedule.staffPhone,
-              schedule.staffRole,
-              new Date(schedule.date).toLocaleDateString(),
-              schedule.shiftStart,
-              schedule.shiftEnd
-            ])}
-          />
-        )}
+{scheduleReport.length > 0 && (
+  <ReportTable
+    title="Schedule Report"
+    headers={['Staff ID', 'Staff Name', 'Email', 'Phone', 'Role', 'Date', 'Shift Start', 'Shift End']}
+    data={scheduleReport.map(schedule => [
+      schedule.staffId,
+      schedule.staffName,
+      schedule.staffEmail,
+      schedule.staffPhone,
+      schedule.staffRole,
+      new Date(schedule.date).toLocaleDateString(),
+      schedule.shiftStart,
+      schedule.shiftEnd
+    ])}
+  />
+)}
       </div>
     );
   };

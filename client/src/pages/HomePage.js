@@ -1,8 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaUserMd, FaCalendarAlt, FaChartBar } from 'react-icons/fa';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaUserMd, FaCalendarAlt, FaChartBar, FaCalendarCheck, FaListAlt } from 'react-icons/fa';
 
 const HomePage = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, []);
   return (
     <div style={styles.homePage}>
       <main style={styles.mainContent}>
@@ -10,37 +17,83 @@ const HomePage = () => {
         <p style={styles.subtitle}>
           Revolutionizing healthcare management with cutting-edge technology
         </p>
-        <div style={styles.featureGrid}>
-          <FeatureCard
-            title="Staff Management"
-            description="Efficiently manage your medical staff with ease"
-            icon={<FaUserMd />}
-            link="/staff"
-          />
-          <FeatureCard
-            title="Smart Scheduling"
-            description="Optimize schedules for maximum efficiency"
-            icon={<FaCalendarAlt />}
-            link="/schedules"
-          />
-          <FeatureCard
-            title="Insightful Analytics"
-            description="Make data-driven decisions with powerful reports"
-            icon={<FaChartBar />}
-            link="/reports"
-          />
-        </div>
+        
+          {user && user.userType === "Staff" && (
+            <div style={styles.featureGrid}>
+              <FeatureCard
+                title="View Appointments"
+                description="See all scheduled appointments"
+                icon={<FaListAlt />}
+                link="/appointmentview"
+              />
+            </div>
+          )}
+
+          {user && user.userType === "Patient" && (
+            <div style={styles.featureGrid}>
+              <FeatureCard
+                title="Make Appointment"
+                description="Schedule an appointment with a doctor"
+                icon={<FaCalendarCheck />}
+                link="/makeappoinment"
+              />
+              
+            </div>
+          )}
+
+          {user && user.userType === "Doctor" && (
+            <div style={styles.featureGrid}>
+              <FeatureCard
+                title="View Appointments"
+                description="See all scheduled appointments"
+                icon={<FaListAlt />}
+                link="/appointmentview"
+              />
+            </div>
+            
+          )}
+
+          {user && user.userType === "HSA" && (
+            <div style={styles.featureGrid}>
+              <FeatureCard
+                title="Staff Management"
+                description="Efficiently manage your medical staff with ease"
+                icon={<FaUserMd />}
+                link="/staff"
+              />
+              <FeatureCard
+                title="Smart Scheduling"
+                description="Optimize schedules for maximum efficiency"
+                icon={<FaCalendarAlt />}
+                link="/schedules"
+              />
+              <FeatureCard
+                title="Insightful Analytics"
+                description="Make data-driven decisions with powerful reports"
+                icon={<FaChartBar />}
+                link="/reports"
+              />
+              
+              <FeatureCard
+                title="Doctor Management"
+                description="Schedule an appointment with a doctor"
+                icon={<FaUserMd />}
+                link="/doctorMange"
+              />
+              
+            
+            </div>
+          )}
         
       </main>
       <footer style={styles.footer}>
-        <p>© 2023 MediManager. All rights reserved.</p>
+        <p>© 2024 MediManager. All rights reserved.</p>
       </footer>
     </div>
   );
 };
-
 const FeatureCard = ({ title, description, icon, link }) => (
-  <Link to={link} style={styles.featureCard}>
+  <Link to={link} style={styles.featureCard}>    
     <div style={styles.icon}>{icon}</div>
     <h2 style={styles.cardTitle}>{title}</h2>
     <p style={styles.cardDescription}>{description}</p>

@@ -1,16 +1,27 @@
-import mongoose from "mongoose";
-import logger from "./logger.js";
+const mongoose = require('mongoose');
+const logger = require('./logger');
 
-const connectDatabase = async () => {
+class Database {
+    constructor() {
+        this.connection = null;
+    }
 
-    mongoose.set("strictQuery", false);
-    mongoose.connect(process.env.DATABASE_URL)
-        .then(() => {
-            logger.info("Database connection success!")
-        })
-        .catch((err) => {
-            logger.error("Database connection unsuccessful!" + err.message)
-        })
+    async connect() {
+        if (this.connection) {
+            return this.connection;
+        }
+
+        mongoose.set("strictQuery", false);
+        try {
+            this.connection = await mongoose.connect(process.env.DATABASE_URL);
+            logger.info("Database connection success!");
+            return this.connection;
+        } catch (err) {
+            logger.error("Database connection unsuccessful!" + err.message);
+            throw err;
+        }
+    }
 }
 
-export default connectDatabase;
+const database = new Database();
+module.exports = database;

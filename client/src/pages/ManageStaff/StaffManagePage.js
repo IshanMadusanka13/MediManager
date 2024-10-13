@@ -91,10 +91,11 @@
           <h2 style={styles.subtitle}>Staff List</h2>
           {staff.map((staffMember) => (
             <div key={staffMember._id} style={styles.staffCard}>
-              <h3>{staffMember.name}</h3>
-              <p>{staffMember.email}</p>
-              <p>{staffMember.phone}</p>
-              <p>{staffMember.role}</p>
+             <h3>Staff ID : {staffMember.staffId}</h3>
+              <p>Name  : {staffMember.name}</p>
+              <p>Email : {staffMember.email}</p>
+              <p>Phone : {staffMember.phone}</p>
+              <p>Role  : {staffMember.role}</p>
               <div style={styles.cardActions}>
                 <button style={styles.editButton} onClick={() => handleEdit(staffMember)}>Edit</button>
                 <button style={styles.deleteButton} onClick={() => handleDelete(staffMember._id)}>Delete</button>
@@ -140,7 +141,7 @@
     },
     staffList: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(255px, 1fr))',
       gap: '20px',
     },
     subtitle: {
