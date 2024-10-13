@@ -1,13 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaHospital, FaUserMd, FaCalendarAlt, FaChartBar, FaSignInAlt, FaUserPlus, FaBars, FaTimes, FaCalendarCheck, FaListAlt } from 'react-icons/fa';
+import {
+  FaHospital,
+  FaUserMd,
+  FaCalendarAlt,
+  FaChartBar,
+  FaSignInAlt,
+  FaUserPlus,
+  FaBars,
+  FaTimes,
+  FaCalendarCheck,
+  FaListAlt,
+  FaAddressCard,
+} from 'react-icons/fa';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
   useEffect(() => {
-    console.log('Navbar component mounted');
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       setUser(user);
@@ -35,7 +47,6 @@ const Navbar = () => {
         <ul style={{ ...styles.navMenu, ...(isOpen ? styles.navMenuActive : {}) }}>
           {user && user.userType === "Staff" && (
             <>
-
               <li style={styles.navItem}>
                 <Link to="/makeappoinment" style={styles.navLink}><FaCalendarCheck /> Make Appointment</Link>
               </li>
@@ -46,6 +57,9 @@ const Navbar = () => {
           )}
           {user && user.userType === "Patient" && (
             <>
+              <li style={styles.navItem}>
+                <Link to="/digitleHeathCard" style={styles.navLink}><FaAddressCard /> Get Health Card</Link>
+              </li>
               <li style={styles.navItem}>
                 <Link to="/makeappoinment" style={styles.navLink}><FaCalendarCheck /> Make Appointment</Link>
               </li>
@@ -77,15 +91,10 @@ const Navbar = () => {
             </li>
           )}
           {!user && (
-            <>
-
-              <li style={styles.navItem}>
-                <Link to="/register" style={styles.navLink}><FaUserPlus /> Register</Link>
-              </li>
-
-            </>
+            <li style={styles.navItem}>
+              <Link to="/register" style={styles.navLink}><FaUserPlus /> Register</Link>
+            </li>
           )}
-
         </ul>
       </div>
     </nav>
@@ -106,6 +115,7 @@ const styles = {
     alignItems: 'center',
     maxWidth: '1200px',
     margin: '0 auto',
+    flexWrap: 'wrap',
   },
   logo: {
     display: 'flex',
@@ -122,7 +132,7 @@ const styles = {
     display: 'inline-block',
   },
   menuIcon: {
-    display: 'none',
+    display: 'none', // Hidden on larger screens
     color: '#fff',
     fontSize: '1.5rem',
     cursor: 'pointer',
@@ -132,6 +142,7 @@ const styles = {
     listStyle: 'none',
     margin: 0,
     padding: 0,
+    transition: 'max-height 0.3s ease',
   },
   navItem: {
     margin: '0 1rem',
@@ -154,25 +165,27 @@ const styles = {
     alignItems: 'center',
     transition: 'color 0.3s ease',
   },
+  navMenuActive: {
+    display: 'flex',
+    flexDirection: 'column', // Stack items vertically in mobile view
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    width: '100%',
+    backgroundColor: '#3498db',
+    padding: '1rem 0',
+    zIndex: 999, // Ensure it appears above other elements
+  },
+  // Media queries for responsiveness
   '@media (max-width: 768px)': {
     menuIcon: {
-      display: 'block',
+      display: 'block', // Show menu icon on smaller screens
     },
     navMenu: {
-      flexDirection: 'column',
-      position: 'absolute',
-      top: '100%',
-      left: 0,
-      width: '100%',
-      backgroundColor: '#3498db',
-      display: 'none',
-      padding: '1rem 0',
-    },
-    navMenuActive: {
-      display: 'flex',
+      display: 'none', // Hide menu by default on smaller screens
     },
     navItem: {
-      margin: '0.5rem 0',
+      margin: '0.5rem 0', // Adjust margins for stacked items
     },
   },
 };
