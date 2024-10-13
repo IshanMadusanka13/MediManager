@@ -52,3 +52,5 @@
 {"level":30,"time":1728817106016,"pid":17192,"hostname":"DESKTOP-4OV1VV7","msg":"Database connection success!"}
 {"level":30,"time":1728817106018,"pid":17192,"hostname":"DESKTOP-4OV1VV7","msg":"Connected to the database"}
 {"level":30,"time":1728817106383,"pid":17192,"hostname":"DESKTOP-4OV1VV7","msg":"Server running on port 5000"}
+{"level":30,"time":1728821326426,"pid":17492,"hostname":"ALPHA","msg":"Database connection success!"}
+{"level":30,"time":1728821326427,"pid":17492,"hostname":"ALPHA","msg":"Connected to the database"}

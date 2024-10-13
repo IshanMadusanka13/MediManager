@@ -26,7 +26,15 @@ const HomePage = () => {
                 icon={<FaListAlt />}
                 link="/appointmentview"
               />
-            </div>
+           
+            
+            <FeatureCard
+              title="Bed Arrenge"
+              description="See all bed arrengements"
+              icon={<FaListAlt />}
+              link="/bedshedule"
+            />
+          </div>
           )}
 
           {user && user.userType === "Patient" && (

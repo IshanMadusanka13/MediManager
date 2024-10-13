@@ -42,7 +42,6 @@ exports.deleteAppointment = async (req, res) => {
     }
 };
 
-const Appointment = require('../models/Appointment');
 
 exports.getLastWeekAppointmentCount = async (req, res) => {
   try {
