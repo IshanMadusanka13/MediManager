@@ -37,8 +37,20 @@ const HomePage = () => {
                 icon={<FaCalendarCheck />}
                 link="/makeappoinment"
               />
-              +
+              
             </div>
+          )}
+
+          {user && user.userType === "Doctor" && (
+            <div style={styles.featureGrid}>
+              <FeatureCard
+                title="View Appointments"
+                description="See all scheduled appointments"
+                icon={<FaListAlt />}
+                link="/appointmentview"
+              />
+            </div>
+            
           )}
 
           {user && user.userType === "HSA" && (
@@ -61,6 +73,15 @@ const HomePage = () => {
                 icon={<FaChartBar />}
                 link="/reports"
               />
+              
+              <FeatureCard
+                title="Doctor Management"
+                description="Schedule an appointment with a doctor"
+                icon={<FaUserMd />}
+                link="/doctorMange"
+              />
+              
+            
             </div>
           )}
         
