@@ -8,6 +8,7 @@ import StaffSchedulePage from './pages/ManageStaff/StaffSchedulePage';
 import ReportPage from './pages/ManageStaff/ReportPage';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import DigitleHeathCard from './pages/digitalCard/DigitleHeathCard';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/staff" element={<StaffManagePage />} />
         <Route path="/schedules" element={<StaffSchedulePage />} />
         <Route path="/reports" element={<ReportPage />} />
+        <Route path="/digitleHeathCard" element={<DigitleHeathCard />} />
       </Routes>
       <Footer />
     </Router>
