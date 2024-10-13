@@ -5,6 +5,7 @@ import authService from '../services/authService';
 const RegisterPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [medicalHistory, setMedicalHistory] = useState('');
@@ -20,7 +21,7 @@ const RegisterPage = () => {
       return;
     }
     try {
-      await authService.register(name, email, password, userType, medicalHistory, staffId);
+      await authService.register(name, email, password, userType, medicalHistory, phone);
       navigate('/login');
     } catch (err) {
       setError('Registration failed');
@@ -65,6 +66,17 @@ const RegisterPage = () => {
               <option value="Staff">Staff</option>
             </select>
           </div>
+          <div style={styles.inputGroup}>
+          <label style={styles.label}>Phone Number</label>
+            <input
+              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              style={styles.input}
+              placeholder="Enter your mobile"
+            />
+          </div>
+
           {userType === 'Patient' && (
             <div style={styles.inputGroup}>
               <label style={styles.label}>Medical History</label>

@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaHospital, FaUserMd, FaCalendarAlt, FaChartBar, FaSignInAlt, FaUserPlus, FaBars, FaTimes, FaCalendarCheck, FaListAlt } from 'react-icons/fa';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const user = JSON.parse(localStorage.getItem('user'));
+  const [user, setUser] = useState('');
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log('Navbar component mounted');
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      setUser(user);
+    }
+  }, [navigate]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -24,10 +32,10 @@ const Navbar = () => {
         <div style={styles.menuIcon} onClick={toggleMenu}>
           {isOpen ? <FaTimes /> : <FaBars />}
         </div>
-        <ul style={{...styles.navMenu, ...(isOpen ? styles.navMenuActive : {})}}>
+        <ul style={{ ...styles.navMenu, ...(isOpen ? styles.navMenuActive : {}) }}>
           {user && user.userType === "Staff" && (
             <>
-              
+
               <li style={styles.navItem}>
                 <Link to="/makeappoinment" style={styles.navLink}><FaCalendarCheck /> Make Appointment</Link>
               </li>
@@ -60,24 +68,24 @@ const Navbar = () => {
             </>
           )}
           {user ? (
-          <li style={styles.navItem}>
-            <button onClick={handleLogout} style={styles.navButton}>Logout</button>
-          </li>
+            <li style={styles.navItem}>
+              <button onClick={handleLogout} style={styles.navButton}>Logout</button>
+            </li>
           ) : (
             <li style={styles.navItem}>
-            <Link to="/login" style={styles.navLink}><FaSignInAlt /> Login</Link>
-          </li>
+              <Link to="/login" style={styles.navLink}><FaSignInAlt /> Login</Link>
+            </li>
           )}
           {!user && (
             <>
-              
+
               <li style={styles.navItem}>
                 <Link to="/register" style={styles.navLink}><FaUserPlus /> Register</Link>
               </li>
-              
+
             </>
           )}
-          
+
         </ul>
       </div>
     </nav>

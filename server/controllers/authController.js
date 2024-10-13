@@ -8,36 +8,30 @@ const generateToken = (id) => {
   });
 };
 
-exports.register = async (req, res) => {
-  const { name, email, password, userType, medicalHistory, staffId } = req.body;
+exports.register = async (email, password, userType) => {
 
   if (!email || !password) {
-    return res.status(400).json({ message: 'Please fill in all fields.' });
+    throw new Error({ message: "Email and Password can't be empty" });
   }
 
   try {
     const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
+      throw new Error({ message: "User already exists" });
     }
 
-    const user = new User({ name, email, password, userType, medicalHistory });
+    const user = new User({ email, password, userType });
     await user.save();
+    const token = generateToken(user._id);
 
-    if (userType === 'Staff') {
-      const staff = new Staff({ name, email, staffId });
-      await staff.save();
-    }
-
-    res.status(201).json({
-      message: 'User registered successfully',
-      token: generateToken(user._id),
-    });
+    return "Success";
   } catch (error) {
     console.error('Error registering user:', error);
-    res.status(500).json({ message: 'Error registering user', error: error.message });
+    throw new Error({ message: `Error registering user: ${error.message}` });
   }
 };
+
+
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
@@ -53,7 +47,6 @@ exports.login = async (req, res) => {
         token: generateToken(user._id),
         user: {
           _id: user._id,
-          name: user.name,
           email: user.email,
           userType: user.userType,
         },

@@ -9,8 +9,8 @@ const login = async (email, password) => {
   return response.data;
 };
 
-const register = async (name, email, password, userType, medicalHistory, staffId) => {
-  const response = await axios.post(`${API_URL}/auth/register`, { name, email, password, userType, medicalHistory, staffId });
+const register = async (name, email, password, userType, medicalHistory, phone) => {
+  const response = await axios.post(`${API_URL}/patient`, { name, email, password, userType, medicalHistory, phone });
   return response.data;
 };
 

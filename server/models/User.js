@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
   email: {
     type: String,
     required: true,
@@ -17,11 +13,8 @@ const UserSchema = new mongoose.Schema({
   },
   userType: {
     type: String,
-    enum: ['Patient', 'Staff', 'HSA'],
+    enum: ['Patient', 'Staff', 'HSA', 'Doctor'],
     default: 'Patient',
-  },
-  medicalHistory: {
-    type: String,
   },
 });
 

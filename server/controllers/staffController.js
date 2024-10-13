@@ -1,10 +1,12 @@
 const Staff = require('../models/Staff');
+const auth = require('./authController');
 
 exports.createStaff = async (req, res) => {
   const { name, email, phone, role } = req.body;
   try {
     const staff = new Staff({ name, email, phone, role });
     await staff.save();
+    await auth.register(email, password, 'Staff');
     res.status(201).json({ message: 'Staff member created successfully', staffId: staff.staffId });
   } catch (error) {
     res.status(400).json({ message: 'Error creating staff member' });

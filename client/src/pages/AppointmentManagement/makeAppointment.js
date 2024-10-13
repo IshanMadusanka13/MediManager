@@ -1,16 +1,29 @@
-
 import React, { useState, useEffect } from 'react';
 import appointmentService from '../../services/appointmentService';
+import { useNavigate } from 'react-router-dom';
+import patientService from '../../services/patientService';
 
 const MakeAppointment = () => {
   const [appointments, setAppointments] = useState([]);
   const [formData, setFormData] = useState({ date: '', time: '', doctor: '', patient: '' });
   const [editingId, setEditingId] = useState(null);
+  const [user, setUser] = useState('');
+  const [patient, setPatient] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      setUser(user);
+      fetchPatient(user.email);
+    }
     fetchAppointments();
-  }, []);
+  }, [navigate]);
 
+  const fetchPatient = async (email) => {
+    const patient = await patientService.getPatientByEmail(email);
+    setPatient(patient);
+  };
   const fetchAppointments = async () => {
     const data = await appointmentService.getAllAppointments();
     setAppointments(data);
@@ -19,22 +32,22 @@ const MakeAppointment = () => {
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      const appointmentData = {
-        ...formData,
-        date: new Date(formData.date).toISOString(),
-        time: new Date(`1970-01-01T${formData.time}`).toISOString()
-      };
-      if (editingId) {
-        await appointmentService.updateAppointment(editingId, appointmentData);
-      } else {
-        await appointmentService.createAppointment(appointmentData);
-      }
-      setFormData({ date: '', time: '', doctor: '', patient: '' });
-      setEditingId(null);
-      fetchAppointments();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const appointmentData = {
+      ...formData,
+      date: new Date(formData.date).toISOString(),
+      time: new Date(`1970-01-01T${formData.time}`).toISOString()
     };
+    if (editingId) {
+      await appointmentService.updateAppointment(editingId, appointmentData);
+    } else {
+      await appointmentService.createAppointment(appointmentData);
+    }
+    setFormData({ date: '', time: '', doctor: '', patient: '' });
+    setEditingId(null);
+    fetchAppointments();
+  };
   const handleEdit = (appointment) => {
     setFormData(appointment);
     setEditingId(appointment._id);
@@ -48,7 +61,7 @@ const MakeAppointment = () => {
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Manage Appointments</h1>
-      
+
       <form onSubmit={handleSubmit} style={styles.form}>
         <input
           style={styles.input}
@@ -79,10 +92,11 @@ const MakeAppointment = () => {
           style={styles.input}
           type="text"
           name="patient"
-          value={formData.patient}
+          value={patient.name}
           onChange={handleInputChange}
           placeholder="Patient"
           required
+          disabled
         />
         <button style={styles.button} type="submit">
           {editingId ? 'Update Appointment' : 'Add Appointment'}
