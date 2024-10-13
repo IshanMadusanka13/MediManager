@@ -10,7 +10,6 @@ const digitleHeathCard = () => {
 					<input type="text" placeholder="Your name" name="name" />
 					<input type="email" placeholder="someone@gmail.com" name="email" />
 					<input type="Password" placeholder="Password" name="Password" />
-					<input type="Re-Password" placeholder="Re-Password" name="Re-Password" />
 					<input type="text" placeholder="Age" name="age" />
 					{/* Dropdown for Blood Group */}
 					<select name="bloodGroup" className="dropdown">
