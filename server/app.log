@@ -84,3 +84,15 @@
 {"level":30,"time":1728818669744,"pid":10312,"hostname":"ALPHA","msg":"Database connection success!"}
 {"level":30,"time":1728818669745,"pid":10312,"hostname":"ALPHA","msg":"Connected to the database"}
 {"level":30,"time":1728818669853,"pid":10312,"hostname":"ALPHA","msg":"Server running on port 5000"}
+{"level":30,"time":1728819704713,"pid":14968,"hostname":"DESKTOP-4OV1VV7","msg":"Database connection success!"}
+{"level":30,"time":1728819704717,"pid":14968,"hostname":"DESKTOP-4OV1VV7","msg":"Connected to the database"}
+{"level":30,"time":1728819705771,"pid":14968,"hostname":"DESKTOP-4OV1VV7","msg":"Server running on port 5000"}
+{"level":50,"time":1728819810721,"pid":14968,"hostname":"DESKTOP-4OV1VV7","msg":"Email sent failed to: madusankaishan13@gmail.com"}
+{"level":30,"time":1728820093216,"pid":20340,"hostname":"DESKTOP-4OV1VV7","msg":"Database connection success!"}
+{"level":30,"time":1728820093219,"pid":20340,"hostname":"DESKTOP-4OV1VV7","msg":"Connected to the database"}
+{"level":30,"time":1728820093808,"pid":20340,"hostname":"DESKTOP-4OV1VV7","msg":"Server running on port 5000"}
+{"level":50,"time":1728820291069,"pid":20340,"hostname":"DESKTOP-4OV1VV7","msg":"Email sent failed to: madusankaishan13@gmail.com"}
+{"level":30,"time":1728821049568,"pid":14148,"hostname":"DESKTOP-4OV1VV7","msg":"Database connection success!"}
+{"level":30,"time":1728821049570,"pid":14148,"hostname":"DESKTOP-4OV1VV7","msg":"Connected to the database"}
+{"level":30,"time":1728821050306,"pid":14148,"hostname":"DESKTOP-4OV1VV7","msg":"Server running on port 5000"}
+{"level":30,"time":1728821099305,"pid":14148,"hostname":"DESKTOP-4OV1VV7","msg":"Email succesfully sent to: madusankaishan13@gmail.com"}
