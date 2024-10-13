@@ -23,13 +23,14 @@ database.connect()
     const appointmentRoutes = require('./routes/appointmentRoutes');
     const doctorRoutes = require('./routes/doctorRoutes');
     const patientRoutes = require('./routes/patientRoutes');
+    const wardRoutes = require('./routes/wardRoutes');
 
     app.use('/api/auth', authRoutes);
     app.use('/api/staff', staffRoutes);
     app.use('/api/schedules', scheduleRoutes);
     app.use('/api/appointments', appointmentRoutes);
     app.use('/api/doctor', doctorRoutes);
-    app.use('/api/patient', patientRoutes);
+    app.use('/api/ward', wardRoutes);
 
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {

@@ -40,3 +40,15 @@
 {"level":30,"time":1728809260029,"pid":18820,"hostname":"DESKTOP-4OV1VV7","msg":"Database connection success!"}
 {"level":30,"time":1728809260031,"pid":18820,"hostname":"DESKTOP-4OV1VV7","msg":"Connected to the database"}
 {"level":30,"time":1728809260506,"pid":18820,"hostname":"DESKTOP-4OV1VV7","msg":"Server running on port 5000"}
+{"level":30,"time":1728815844314,"pid":5952,"hostname":"DESKTOP-4OV1VV7","msg":"Database connection success!"}
+{"level":30,"time":1728815844318,"pid":5952,"hostname":"DESKTOP-4OV1VV7","msg":"Connected to the database"}
+{"level":30,"time":1728815844837,"pid":5952,"hostname":"DESKTOP-4OV1VV7","msg":"Server running on port 5000"}
+{"level":30,"time":1728815982543,"pid":11284,"hostname":"DESKTOP-4OV1VV7","msg":"Database connection success!"}
+{"level":30,"time":1728815982547,"pid":11284,"hostname":"DESKTOP-4OV1VV7","msg":"Connected to the database"}
+{"level":30,"time":1728815983069,"pid":11284,"hostname":"DESKTOP-4OV1VV7","msg":"Server running on port 5000"}
+{"level":30,"time":1728816163452,"pid":14504,"hostname":"DESKTOP-4OV1VV7","msg":"Database connection success!"}
+{"level":30,"time":1728816163454,"pid":14504,"hostname":"DESKTOP-4OV1VV7","msg":"Connected to the database"}
+{"level":30,"time":1728816163831,"pid":14504,"hostname":"DESKTOP-4OV1VV7","msg":"Server running on port 5000"}
+{"level":30,"time":1728817106016,"pid":17192,"hostname":"DESKTOP-4OV1VV7","msg":"Database connection success!"}
+{"level":30,"time":1728817106018,"pid":17192,"hostname":"DESKTOP-4OV1VV7","msg":"Connected to the database"}
+{"level":30,"time":1728817106383,"pid":17192,"hostname":"DESKTOP-4OV1VV7","msg":"Server running on port 5000"}

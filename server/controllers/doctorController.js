@@ -14,6 +14,7 @@ exports.createDoctor = async (req, res) => {
 
     res.status(201).json({ message: 'Doctor member created successfully' });
   } catch (error) {
+    console.log(error)
     res.status(400).json({ message: 'Error creating Doctor' });
   }
 };
