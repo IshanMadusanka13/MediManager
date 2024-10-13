@@ -35,7 +35,7 @@ const HomePage = () => {
                 title="Make Appointment"
                 description="Schedule an appointment with a doctor"
                 icon={<FaCalendarCheck />}
-                link="/make-appointment"
+                link="/makeappoinment"
               />
               +
             </div>
