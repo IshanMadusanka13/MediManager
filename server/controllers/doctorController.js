@@ -1,20 +1,27 @@
 const Doctor = require('../models/Doctor');
 const auth = require('./authController');
+const sendMail = require('../utils/sendMail');
 
 exports.createDoctor = async (req, res) => {
   try {
-    const { name, email, password, speciality, phone } = req.body;
+    const { name, email, speciality, schedule, phone } = req.body;
     const lastDoctor = await Doctor.findOne().sort({ _id: -1 });
     const lastId = lastDoctor ? parseInt(lastDoctor.doctorId.slice(1)) : 0;
     const newId = `D${String(lastId + 1).padStart(4, '0')}`;
 
-    const doctor = new Doctor({ name, email, password, speciality, phone, doctorId: newId });
+    let password = Math.random().toString(36).slice(2, 8);
+
+    const doctor = new Doctor({ name, email, password, speciality, phone, schedule, doctorId: newId });
     await doctor.save();
     await auth.register(email, password, 'Doctor');
+    
+    sendMail.sendEmployeeInitialPassword(name, email, password);
 
     res.status(201).json({ message: 'Doctor member created successfully' });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: 'Error creating Doctor' });
+    
   }
 };
 
