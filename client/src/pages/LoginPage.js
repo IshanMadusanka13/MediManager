@@ -14,6 +14,7 @@ const LoginPage = () => {
       const response = await authService.login(email, password);
       localStorage.setItem('user', JSON.stringify(response.user));
       navigate('/');
+
     } catch (err) {
       console.error('Login error:', err);
       setError('Invalid credentials');

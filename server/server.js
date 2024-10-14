@@ -24,6 +24,7 @@ database.connect()
     const doctorRoutes = require('./routes/doctorRoutes');
     const patientRoutes = require('./routes/patientRoutes');
     const wardRoutes = require('./routes/wardRoutes');
+    const healthCardRoutes = require('./routes/healthcardRoutes'); 
 
     app.use('/api/auth', authRoutes);
     app.use('/api/staff', staffRoutes);
@@ -31,6 +32,8 @@ database.connect()
     app.use('/api/appointments', appointmentRoutes);
     app.use('/api/doctor', doctorRoutes);
     app.use('/api/ward', wardRoutes);
+    app.use('/api/patient', patientRoutes);
+    app.use('/api/healthCard', healthCardRoutes); 
 
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {

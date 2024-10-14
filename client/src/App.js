@@ -12,6 +12,8 @@ import DoctorManage from './pages/ManageStaff/DoctorManagePage';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import DigitleHeathCard from './pages/digitalCard/DigitleHeathCard';
+import AccessCard from './pages/digitalCard/AccessCard';
+import ScanningCard from './pages/digitalCard/ScanningCard';
 
 const App = () => {
   return (
@@ -28,6 +30,9 @@ const App = () => {
         <Route path="/makeappoinment" element={<MakeAppointmentPage />} />
         <Route path="/appointmentview" element={<AppointmentViwe />} />
         <Route path="/doctorMange" element={<DoctorManage />} />
+        <Route path="/accessCard" element={<AccessCard />} />
+        <Route path="/scanningCard" element={<ScanningCard />} />
+
       </Routes>
       <Footer />
     </Router>

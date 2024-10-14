@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import {
   FaHospital,
   FaUserMd,
@@ -14,23 +15,41 @@ import {
   FaAddressCard,
 } from 'react-icons/fa';
 
+import { BiQrScan } from "react-icons/bi";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [hasHealthCard, setHasHealthCard] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       setUser(user);
+      checkHealthCard(user.email);
     }
   }, [navigate]);
+
+  const checkHealthCard = async (email) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/healthCard/exists/${email}`);
+      if (response.status === 200 && response.data.exists) {
+        setHasHealthCard(true);
+      } else {
+        setHasHealthCard(false);
+      }
+    } catch (error) {
+      console.error('Error checking health card:', error);
+    }
+  };
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    localStorage.removeItem('healthCard');
     window.location.href = '/login';
   };
 
@@ -48,6 +67,9 @@ const Navbar = () => {
           {user && user.userType === "Staff" && (
             <>
               <li style={styles.navItem}>
+                <Link to="/scanningCard" style={styles.navLink}><BiQrScan /></Link>
+              </li>
+              <li style={styles.navItem}>
                 <Link to="/makeappoinment" style={styles.navLink}><FaCalendarCheck /> Make Appointment</Link>
               </li>
               <li style={styles.navItem}>
@@ -58,7 +80,9 @@ const Navbar = () => {
           {user && user.userType === "Patient" && (
             <>
               <li style={styles.navItem}>
-                <Link to="/digitleHeathCard" style={styles.navLink}><FaAddressCard /> Get Health Card</Link>
+                <Link to={hasHealthCard ? "/accessCard" : "/digitleHeathCard"} style={styles.navLink}>
+                  <FaAddressCard /> {hasHealthCard ? "Access My Health Card" : "Get Health Card"}
+                </Link>
               </li>
               <li style={styles.navItem}>
                 <Link to="/makeappoinment" style={styles.navLink}><FaCalendarCheck /> Make Appointment</Link>
@@ -101,6 +125,7 @@ const Navbar = () => {
   );
 };
 
+// Styles remain the same
 const styles = {
   navbar: {
     backgroundColor: '#3498db',
@@ -176,7 +201,6 @@ const styles = {
     padding: '1rem 0',
     zIndex: 999, // Ensure it appears above other elements
   },
-  // Media queries for responsiveness
   '@media (max-width: 768px)': {
     menuIcon: {
       display: 'block', // Show menu icon on smaller screens
@@ -186,8 +210,13 @@ const styles = {
     },
     navItem: {
       margin: '0.5rem 0', // Adjust margins for stacked items
+      textAlign: 'center', // Center text for mobile view
     },
   },
+
+
+
+
 };
 
 export default Navbar;
