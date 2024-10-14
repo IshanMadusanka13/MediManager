@@ -1,8 +1,6 @@
-// Navbar.js
-
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios for API calls
+import axios from 'axios';
 import {
   FaHospital,
   FaUserMd,
@@ -17,17 +15,18 @@ import {
   FaAddressCard,
 } from 'react-icons/fa';
 
+import { BiQrScan } from "react-icons/bi";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
-  const [hasHealthCard, setHasHealthCard] = useState(false); // State to track health card status
+  const [hasHealthCard, setHasHealthCard] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       setUser(user);
-      // Check if health card exists for the user
       checkHealthCard(user.email);
     }
   }, [navigate]);
@@ -68,6 +67,9 @@ const Navbar = () => {
           {user && user.userType === "Staff" && (
             <>
               <li style={styles.navItem}>
+                <Link to="/scanningCard" style={styles.navLink}><BiQrScan /></Link>
+              </li>
+              <li style={styles.navItem}>
                 <Link to="/makeappoinment" style={styles.navLink}><FaCalendarCheck /> Make Appointment</Link>
               </li>
               <li style={styles.navItem}>
@@ -78,7 +80,7 @@ const Navbar = () => {
           {user && user.userType === "Patient" && (
             <>
               <li style={styles.navItem}>
-                <Link to={hasHealthCard ? "/accessHealthCard" : "/digitleHeathCard"} style={styles.navLink}>
+                <Link to={hasHealthCard ? "/accessCard" : "/digitleHeathCard"} style={styles.navLink}>
                   <FaAddressCard /> {hasHealthCard ? "Access My Health Card" : "Get Health Card"}
                 </Link>
               </li>
@@ -155,7 +157,7 @@ const styles = {
     display: 'inline-block',
   },
   menuIcon: {
-    display: 'none',
+    display: 'none', // Hidden on larger screens
     color: '#fff',
     fontSize: '1.5rem',
     cursor: 'pointer',
@@ -190,15 +192,31 @@ const styles = {
   },
   navMenuActive: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column', // Stack items vertically in mobile view
     position: 'absolute',
     top: '100%',
     left: 0,
     width: '100%',
     backgroundColor: '#3498db',
     padding: '1rem 0',
-    zIndex: 999,
+    zIndex: 999, // Ensure it appears above other elements
   },
+  '@media (max-width: 768px)': {
+    menuIcon: {
+      display: 'block', // Show menu icon on smaller screens
+    },
+    navMenu: {
+      display: 'none', // Hide menu by default on smaller screens
+    },
+    navItem: {
+      margin: '0.5rem 0', // Adjust margins for stacked items
+      textAlign: 'center', // Center text for mobile view
+    },
+  },
+
+
+
+
 };
 
 export default Navbar;

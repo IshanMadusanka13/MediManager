@@ -28,3 +28,17 @@ exports.checkHealthCardExists = async (req, res) => {
 		res.status(500).json({ message: 'Error checking health card', error: error.message });
 	}
 };
+
+exports.getHealthCardByEmail = async (req, res) => {
+	const email = req.params.email;
+	try {
+		const healthCard = await HealthCard.findOne({ email });
+		if (!healthCard) {
+			return res.status(404).json({ message: 'Health card not found' });
+		}
+		res.status(200).json(healthCard);
+	} catch (error) {
+		console.error('Error fetching health card:', error);
+		res.status(500).json({ message: 'Error fetching health card', error: error.message });
+	}
+};
