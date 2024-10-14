@@ -1,5 +1,8 @@
+// Navbar.js
+
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios for API calls
 import {
   FaHospital,
   FaUserMd,
@@ -17,20 +20,37 @@ import {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [hasHealthCard, setHasHealthCard] = useState(false); // State to track health card status
   const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
       setUser(user);
+      // Check if health card exists for the user
+      checkHealthCard(user.email);
     }
   }, [navigate]);
+
+  const checkHealthCard = async (email) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/healthCard/exists/${email}`);
+      if (response.status === 200 && response.data.exists) {
+        setHasHealthCard(true);
+      } else {
+        setHasHealthCard(false);
+      }
+    } catch (error) {
+      console.error('Error checking health card:', error);
+    }
+  };
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    localStorage.removeItem('healthCard');
     window.location.href = '/login';
   };
 
@@ -58,7 +78,9 @@ const Navbar = () => {
           {user && user.userType === "Patient" && (
             <>
               <li style={styles.navItem}>
-                <Link to="/digitleHeathCard" style={styles.navLink}><FaAddressCard /> Get Health Card</Link>
+                <Link to={hasHealthCard ? "/accessHealthCard" : "/digitleHeathCard"} style={styles.navLink}>
+                  <FaAddressCard /> {hasHealthCard ? "Access My Health Card" : "Get Health Card"}
+                </Link>
               </li>
               <li style={styles.navItem}>
                 <Link to="/makeappoinment" style={styles.navLink}><FaCalendarCheck /> Make Appointment</Link>
@@ -101,6 +123,7 @@ const Navbar = () => {
   );
 };
 
+// Styles remain the same
 const styles = {
   navbar: {
     backgroundColor: '#3498db',
@@ -132,7 +155,7 @@ const styles = {
     display: 'inline-block',
   },
   menuIcon: {
-    display: 'none', // Hidden on larger screens
+    display: 'none',
     color: '#fff',
     fontSize: '1.5rem',
     cursor: 'pointer',
@@ -167,26 +190,14 @@ const styles = {
   },
   navMenuActive: {
     display: 'flex',
-    flexDirection: 'column', // Stack items vertically in mobile view
+    flexDirection: 'column',
     position: 'absolute',
     top: '100%',
     left: 0,
     width: '100%',
     backgroundColor: '#3498db',
     padding: '1rem 0',
-    zIndex: 999, // Ensure it appears above other elements
-  },
-  // Media queries for responsiveness
-  '@media (max-width: 768px)': {
-    menuIcon: {
-      display: 'block', // Show menu icon on smaller screens
-    },
-    navMenu: {
-      display: 'none', // Hide menu by default on smaller screens
-    },
-    navItem: {
-      margin: '0.5rem 0', // Adjust margins for stacked items
-    },
+    zIndex: 999,
   },
 };
 
