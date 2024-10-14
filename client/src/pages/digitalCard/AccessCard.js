@@ -42,6 +42,8 @@ const AccessCard = () => {
 		if (healthCard) {
 			const generatedKey = generateUniqueKey(healthCard.name, healthCard.nicNo);
 			setUniqueKey(generatedKey);
+			// After generating the key, update it in the database
+			updateQRKeyInDB(generatedKey, healthCard.nicNo);
 		}
 	}, [healthCard]);
 
@@ -52,6 +54,14 @@ const AccessCard = () => {
 		const lastSixDigits = nicNo.slice(-6);
 		// Combine to create unique key
 		return `${firstTwoLetters}${lastSixDigits}`;
+	};
+
+	const updateQRKeyInDB = async (qrKey, nicNo) => {
+		try {
+			await axios.post(`http://localhost:5000/api/healthCard/updateQRKey`, { qrKey, nicNo });
+		} catch (err) {
+			console.error('Error updating QRKey in the database:', err);
+		}
 	};
 
 	const handleDownloadPNG = () => {

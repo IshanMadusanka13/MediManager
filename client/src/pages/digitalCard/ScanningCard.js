@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import QRCodeScanner from 'react-qr-scanner'; // Import the QR code scanner
+import { QrReader } from 'react-qr-reader'; // Correct import
 import axios from 'axios';
-import './ScanningCard.css'; // Include your CSS styles
+import './ScanningCard.css';
 
 const ScanningCard = () => {
 	const [scanning, setScanning] = useState(false);
@@ -9,45 +9,46 @@ const ScanningCard = () => {
 	const [patientData, setPatientData] = useState(null);
 	const [error, setError] = useState('');
 
-	const handleScan = (data) => {
-		if (data) {
-			setQrKey(data); // Set the scanned QR key
-			fetchPatientData(data); // Fetch patient data using the scanned key
-			setScanning(false); // Stop scanning
+	const handleScan = (result, error) => {
+		if (!!result) {
+			setQrKey(result?.text); // Adjust for newer API response
+			fetchPatientData(result?.text); // Fetch patient data using scanned QR key
+			setScanning(false);
 		}
-	};
 
-	const handleError = (err) => {
-		console.error(err);
-		setError('Error scanning QR code'); // Handle scan errors
+		if (!!error) {
+			console.error(error);
+			setError('Error scanning QR code');
+		}
 	};
 
 	const fetchPatientData = async (qrKey) => {
 		try {
 			const response = await axios.get(`http://localhost:5000/api/patient/${qrKey}`);
-			setPatientData(response.data); // Set patient data from the API response
-			setError(''); // Clear any previous errors
+			setPatientData(response.data);
+			setError('');
 		} catch (err) {
 			console.error(err);
-			setError('Patient not found or error fetching data.'); // Handle data fetch errors
+			setError('Patient not found or error fetching data.');
 		}
 	};
 
 	const handleManualSubmit = (e) => {
-		e.preventDefault(); // Prevent default form submission
-		fetchPatientData(qrKey); // Fetch patient data using the manually entered key
+		e.preventDefault();
+		fetchPatientData(qrKey);
 	};
 
 	return (
 		<div className="scanning-card-container">
 			<h2>Scan QR Code or Enter QR Key</h2>
 			{scanning ? (
-				<QRCodeScanner
-					delay={300}
-					onError={handleError}
-					onScan={handleScan}
-					style={{ width: '100%', height: 'auto' }}
-				/>
+				<div style={{ width: '300px', height: '300px' }}>
+					<QrReader
+						onResult={handleScan}
+						constraints={{ facingMode: 'environment' }} // Use back camera on mobile
+						style={{ width: '100%', height: 'auto' }}
+					/>
+				</div>
 			) : (
 				<div className="manual-entry">
 					<form onSubmit={handleManualSubmit}>
@@ -55,22 +56,21 @@ const ScanningCard = () => {
 							type="text"
 							placeholder="Enter QR Key"
 							value={qrKey}
-							onChange={(e) => setQrKey(e.target.value)} // Update QR key state
+								onChange={(e) => setQrKey(e.target.value)}
 							required
 						/>
 						<button type="submit">Submit</button>
 					</form>
-					<button onClick={() => setScanning(true)}>Scan QR Code</button> {/* Button to start scanning */}
+						<button onClick={() => setScanning(true)}>Scan QR Code</button>
 				</div>
 			)}
-			{error && <p className="error">{error}</p>} {/* Display errors if any */}
+			{error && <p className="error">{error}</p>}
 			{patientData && (
 				<div className="patient-data">
 					<h3>Patient Medical Report</h3>
 					<p><strong>Name:</strong> {patientData.name}</p>
 					<p><strong>NIC No:</strong> {patientData.nicNo}</p>
 					<p><strong>Blood Group:</strong> {patientData.bloodGroup}</p>
-					{/* Add any additional patient data fields as needed */}
 				</div>
 			)}
 		</div>

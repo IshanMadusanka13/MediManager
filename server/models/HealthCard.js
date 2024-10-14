@@ -25,6 +25,10 @@ const healthCardSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	qrKey: {
+		type: String,
+		required: false
+	}
 }, { timestamps: true });
 
 module.exports = mongoose.model('HealthCard', healthCardSchema);

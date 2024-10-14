@@ -1,13 +1,11 @@
 const HealthCard = require('../models/HealthCard');
 
-
 exports.createHealthCard = async (req, res) => {
 	console.log('Received data:', req.body);
 	try {
 		const newCard = new HealthCard(req.body);
 		const savedCard = await newCard.save();
 		res.status(201).json(savedCard);
-
 	} catch (error) {
 		console.error('Error saving health card:', error);
 		res.status(500).json({ message: 'Error saving health card', error: error.message });
@@ -40,5 +38,26 @@ exports.getHealthCardByEmail = async (req, res) => {
 	} catch (error) {
 		console.error('Error fetching health card:', error);
 		res.status(500).json({ message: 'Error fetching health card', error: error.message });
+	}
+};
+
+exports.updateQRKey = async (req, res) => {
+	const { qrKey, nicNo } = req.body;
+	try {
+		const updatedCard = await HealthCard.findOneAndUpdate(
+			{ nicNo },  // Find the health card by NIC number
+			{ qrKey },  // Update the QRKey
+			{ new: true }  // Return the updated document
+		);
+
+		if (!updatedCard) {
+			return res.status(404).json({ message: 'Health card not found' });
+		}
+
+		// Return the updated QRKey in the response
+		res.status(200).json({ qrKey: updatedCard.qrKey, message: 'QRKey updated successfully' });
+	} catch (error) {
+		console.error('Error updating QRKey:', error);
+		res.status(500).json({ message: 'Error updating QRKey', error: error.message });
 	}
 };

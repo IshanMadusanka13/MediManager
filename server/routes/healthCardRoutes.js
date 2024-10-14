@@ -5,7 +5,7 @@ const healthCardController = require('../controllers/healthcardController');
 
 router.post('/submit', healthCardController.createHealthCard);
 router.get('/exists/:email', healthCardController.checkHealthCardExists);
-
 router.get('/:email', healthCardController.getHealthCardByEmail);
+router.post('/updateQRKey', healthCardController.updateQRKey);
 
 module.exports = router;
