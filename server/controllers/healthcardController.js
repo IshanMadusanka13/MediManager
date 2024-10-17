@@ -41,6 +41,23 @@ exports.getHealthCardByEmail = async (req, res) => {
 	}
 };
 
+exports.getHealthCardByQrKey = async (req, res) => {
+	const qrKey = req.params.qrKey;
+	try {
+		const healthCard = await HealthCard.findOne({ qrKey });
+		if (!healthCard) {
+			return res.status(404).json({ message: 'Health card not found' });
+		}
+		res.status(200).json(healthCard);
+	} catch (error) {
+		console.error('Error fetching health card:', error);
+		res.status(500).json({ message: 'Error fetching health card', error: error.message });
+	}
+};
+
+
+
+
 exports.updateQRKey = async (req, res) => {
 	const { qrKey, nicNo } = req.body;
 	try {
