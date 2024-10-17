@@ -12,7 +12,8 @@ const DigitleHeathCard = () => {
 		bloodGroup: '',
 		gender: '',
 	});
-	const navigate = useNavigate(); // Initialize useNavigate
+
+	useNavigate(); // Initialize useNavigate
 
 	useEffect(() => {
 		// Retrieve user info from localStorage when the component mounts
