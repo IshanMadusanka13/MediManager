@@ -43,7 +43,7 @@ const Footer = () => {
 
 const styles = {
   footer: {
-    backgroundColor: '#2c3e50',
+    backgroundColor: 'black',
     color: '#ecf0f1',
     padding: '40px 0 0',
     fontFamily: 'Arial, sans-serif',
