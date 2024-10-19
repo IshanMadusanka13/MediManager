@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import DigitleHeathCard from './pages/digitalCard/DigitleHeathCard';
 import AccessCard from './pages/digitalCard/AccessCard';
 import ScanningCard from './pages/digitalCard/ScanningCard';
+import PaymentPage from './pages/paymentManagement/paymentPage';
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/doctorMange" element={<DoctorManage />} />
         <Route path="/accessCard" element={<AccessCard />} />
         <Route path="/scanningCard" element={<ScanningCard />} />
+        <Route path='/paymentPage' element={<PaymentPage />} />
 
       </Routes>
       <Footer />
