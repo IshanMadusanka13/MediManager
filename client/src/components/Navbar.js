@@ -91,12 +91,10 @@ function Navbar() {
                 <li onClick={removeActive}>
                   <Link to="/makeappoinment" style={{ color: 'white' }} className={isActiveLink("/makeappoinment") ? styles.activeLink : ''}><FaCalendarCheck /> Make Appointment</Link>
                 </li>
-                {/* <li onClick={removeActive}>
-                  <Link to="/appointmentview" style={{ color: 'white' }} className={isActiveLink("/appointmentview") ? styles.activeLink : ''}><FaListAlt /> My Appointments</Link>
-                </li> */}
                 <li onClick={removeActive}>
-                  <Link to="/paymentPage" style={{ color: 'white' }} className={isActiveLink("/paymentPage") ? styles.activeLink : ''} ><FaListAlt /> sample pay</Link>
+                  <Link to="/appointmentview" style={{ color: 'white' }} className={isActiveLink("/appointmentview") ? styles.activeLink : ''}><FaListAlt /> My Appointments</Link>
                 </li>
+
               </>
             )}
             {user && user.userType === 'HSA' && (

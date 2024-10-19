@@ -156,3 +156,6 @@
 {"level":30,"time":1729322948895,"pid":24352,"hostname":"Prasad_Chandima","msg":"Database connection success!"}
 {"level":30,"time":1729322948896,"pid":24352,"hostname":"Prasad_Chandima","msg":"Connected to the database"}
 {"level":30,"time":1729322949010,"pid":24352,"hostname":"Prasad_Chandima","msg":"Server running on port 5000"}
+{"level":30,"time":1729341941696,"pid":13876,"hostname":"Prasad_Chandima","msg":"Database connection success!"}
+{"level":30,"time":1729341941697,"pid":13876,"hostname":"Prasad_Chandima","msg":"Connected to the database"}
+{"level":30,"time":1729341942267,"pid":13876,"hostname":"Prasad_Chandima","msg":"Server running on port 5000"}
