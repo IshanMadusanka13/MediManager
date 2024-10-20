@@ -57,10 +57,10 @@ const DigitleHeathCard = () => {
 
 
 	return (
-		<div className="container">
-			<div className="card">
+		<div className="containerr">
+			<div className="cardd">
 				<h2>FILL INTO GET YOUR HEALTH CARD</h2>
-				<form className="form" onSubmit={handleSubmit}>
+				<form className="formm" onSubmit={handleSubmit}>
 					<input
 						type="email"
 						placeholder="someone@gmail.com"
@@ -112,7 +112,7 @@ const DigitleHeathCard = () => {
 						<option value="O+">O+</option>
 						<option value="O-">O-</option>
 					</select>
-					<div className="radio-group">
+					<div className="radio-groupp">
 						<label>Sex:</label>
 						<label>
 							<input
