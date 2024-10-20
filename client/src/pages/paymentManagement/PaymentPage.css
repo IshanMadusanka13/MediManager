@@ -75,6 +75,17 @@
 
 }
 
+.payment-form select {
+	padding: 10px;
+	margin: 10px 0;
+	border: 1px solid rgba(84, 30, 233, 0.845);
+	border-radius: 5px;
+	background: rgb(255, 253, 253);
+	font-size: large;
+	color: #000;
+	width: 100%;
+	/* Ensures the select box takes full width */
+}
 .error-messages {
 	color: red;
 	background-color: #f8d7da;

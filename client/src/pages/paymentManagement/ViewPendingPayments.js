@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useNavigate } from 'react';
+import React, { useState, useEffect } from 'react';
 import backgroundImage from '../../images/mediback.jpg';
 import dischargeService from '../../services/dischargeService';
 import patientService from '../../services/patientService';
+import { useNavigate } from 'react-router-dom'; // Ensure you import useNavigate
 
 const PendingPaymentView = () => {
     const [pendingPayments, setPendingPayments] = useState([]);
     const [patient, setPatient] = useState(null);
     const user = JSON.parse(localStorage.getItem('user'));
-    const { navigate } = useNavigate();
-
+    const navigate = useNavigate(); // Correctly initialize useNavigate
 
     useEffect(() => {
         fetchPendingPayments();
@@ -21,11 +21,11 @@ const PendingPaymentView = () => {
         setPendingPayments(data);
     };
 
+    // Update this function to correctly navigate
     const handlePayment = (amount) => {
-        navigate('/paymentPage/' + amount);
-        console.log(`Processing payment for ID: ${amount}`);
+        navigate(`/paymentPage/${amount}`); // Use template literal for better readability
+        console.log(`Processing payment for amount: ${amount}`); // Update log message for clarity
     };
-
 
     return (
         <div style={styles.backgroundImage}>
@@ -38,7 +38,7 @@ const PendingPaymentView = () => {
                             <p>Amount: ${payment.amountPaid}</p>
                             <p>Patient: {patient.name}</p>
                             <p>Notes: {payment.notes}</p>
-                            <button style={styles.payButton} onClick={() => handlePayment(payment.amount)}>
+                            <button style={styles.payButton} onClick={() => handlePayment(payment.amountPaid)}>
                                 Pay
                             </button>
                         </div>
@@ -74,6 +74,7 @@ const styles = {
     backgroundImage: {
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
+        minHeight: '100vh',
     },
     payButton: {
         backgroundColor: '#4CAF50',
