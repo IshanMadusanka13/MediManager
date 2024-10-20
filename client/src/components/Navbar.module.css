@@ -86,7 +86,7 @@ a {
 
 /* media queries */
 
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 780px) {
 
 	/* hamburger */
 	.hamburger {
