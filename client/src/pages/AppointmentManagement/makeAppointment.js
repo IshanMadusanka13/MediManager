@@ -6,7 +6,7 @@ import backgroundImage from '../../images/mediback.jpg';
 
 const MakeAppointment = () => {
   const [appointments, setAppointments] = useState([]);
-  const [formData, setFormData] = useState({ date: '', time: '', doctor: '', patient: '' });
+  const [formData, setFormData] = useState({ date: '', time: '', doctor: '', patient: '', reason: '' });
   const [editingId, setEditingId] = useState(null);
   const [user, setUser] = useState('');
   const [patient, setPatient] = useState('');
@@ -98,6 +98,16 @@ const MakeAppointment = () => {
           value={patient.name}
           onChange={handleInputChange}
           placeholder="Patient"
+          required
+          disabled
+        />
+        <input
+          style={styles.input}
+          type="text"
+          name="reason"
+          value={formData.reason}
+          onChange={handleInputChange}
+          placeholder="Reason"
           required
           disabled
         />

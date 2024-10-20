@@ -15,6 +15,7 @@ import DigitleHeathCard from './pages/digitalCard/DigitleHeathCard';
 import AccessCard from './pages/digitalCard/AccessCard';
 import ScanningCard from './pages/digitalCard/ScanningCard';
 import WardManagePage from './pages/ManageWard/WardManagePage'
+import PatientDischarge from './pages/AppointmentManagement/PatientDischarge';
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
             <Route path="/accessCard" element={<AccessCard />} />
             <Route path="/scanningCard" element={<ScanningCard />} />
             <Route path="/bedshedule" element={<WardManagePage/>}/>
+            <Route path="/discharge" element={<PatientDischarge/>}/>
           </Routes>
         </main>
         <Footer />
