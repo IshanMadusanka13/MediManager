@@ -1,25 +1,27 @@
+// models/Discharge.js
 const mongoose = require('mongoose');
 
-const DischargeSchema = new mongoose.Schema({
+const dischargeSchema = new mongoose.Schema({
   patientId: {
-    type: String,
-    required: true,
+    type: String, 
+    required: true
   },
   dischargeDate: {
-    type: Date,
-    required: true,
+    type: Date, 
+    required: true
   },
   amountPaid: {
     type: Number,
-    required: true,
+    required: true
   },
-  notes: {
-    type: String,
+  notes: { 
+    type: String
   },
-  status: {
-    type: Boolean,
-    default: false,
-  }
+  paid: {
+    type: Boolean, 
+    default: false
+  } // Add this line
 });
 
-module.exports = mongoose.model('Discharge', DischargeSchema);
+const Discharge = mongoose.model('Discharge', dischargeSchema);
+module.exports = Discharge;

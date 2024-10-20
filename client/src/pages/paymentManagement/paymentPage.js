@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './PaymentPage.css';
 import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import OtpModal from './OtpModal'; // Import the OTP modal
+import dischargeService from '../../services/dischargeService';
+
 
 const PaymentPage = () => {
 	const [paymentDetails, setPaymentDetails] = useState({
@@ -12,13 +14,14 @@ const PaymentPage = () => {
 		cvc: '',
 	});
 	const [errors, setErrors] = useState([]);
-	const { amount } = useParams(); 
+	const { amount, id } = useParams(); 
 	const [isOtpModalOpen, setIsOtpModalOpen] = useState(false); // State to control OTP modal
 	const navigate = useNavigate(); // Initialize useNavigate for redirection
 
 	const pharmacyBill = 500;
 	const tax = 0;
 	const discount = 0;
+
 
 	const totalAmount = parseFloat(amount) + pharmacyBill - discount + tax;
 
@@ -87,12 +90,19 @@ const PaymentPage = () => {
 		}
 	};
 
-	const handleOtpSubmit = (otp) => {
-		if (otp === '111111') { // Check if the entered OTP is correct
-			alert("Payment successfully processed!"); // Show success message
-			navigate('/payments'); // Redirect to ViewPendingPayments page
+	const handleOtpSubmit = async (otp) => {
+		if (otp === '111111') {
+			alert("Payment successfully processed!");
+
+			try {
+				await dischargeService.markDischargeAsPaid(id); // Mark the discharge as paid
+				navigate('/payments'); // Redirect to ViewPendingPayments page
+			} catch (error) {
+				console.error('Error marking discharge as paid:', error);
+				alert("Failed to process payment. Please try again."); // Alert user on failure
+			}
 		} else {
-			alert("Incorrect OTP. Please try again."); // Show error message for incorrect OTP
+			alert("Incorrect OTP. Please try again."); // Alert for incorrect OTP
 		}
 	};
 

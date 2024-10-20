@@ -8,23 +8,22 @@ const PendingPaymentView = () => {
     const [pendingPayments, setPendingPayments] = useState([]);
     const [patient, setPatient] = useState(null);
     const user = JSON.parse(localStorage.getItem('user'));
-    const navigate = useNavigate(); // Correctly initialize useNavigate
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         fetchPendingPayments();
     }, []);
 
     const fetchPendingPayments = async () => {
-        const patient = await patientService.getPatientByEmail(user.email);
-        setPatient(patient);
-        const data = await dischargeService.getDischargeByPatientId(patient.patientId);
+        const patientData = await patientService.getPatientByEmail(user.email);
+        setPatient(patientData);
+        const data = await dischargeService.getDischargeByPatientId(patientData.patientId);
         setPendingPayments(data);
     };
 
-    // Update this function to correctly navigate
-    const handlePayment = (amount) => {
-        navigate(`/paymentPage/${amount}`); // Use template literal for better readability
-        console.log(`Processing payment for amount: ${amount}`); // Update log message for clarity
+    const handlePayment = async (payment) => {
+        navigate(`/paymentPage/${payment.amountPaid}/${payment._id}`); // Pass amount and ID
+        console.log(`Processing payment for amount: ${payment.amountPaid}`); 
     };
 
     return (
@@ -33,15 +32,20 @@ const PendingPaymentView = () => {
                 <h1 style={styles.title}>Pending Payments</h1>
                 <div style={styles.paymentList}>
                     {pendingPayments.map((payment) => (
-                        <div key={payment._id} style={styles.paymentCard}>
-                            <p>Date: {new Date(payment.dischargeDate).toLocaleDateString()}</p>
-                            <p>Amount: ${payment.amountPaid}</p>
-                            <p>Patient: {patient.name}</p>
-                            <p>Notes: {payment.notes}</p>
-                            <button style={styles.payButton} onClick={() => handlePayment(payment.amountPaid)}>
-                                Pay
-                            </button>
-                        </div>
+                        !payment.paid && ( // Only show unpaid payments
+                            <div key={payment._id} style={styles.paymentCard}>
+                                <p>Date: {new Date(payment.dischargeDate).toLocaleDateString()}</p>
+                                <p>Amount: ${payment.amountPaid}</p>
+                                <p>Patient: {patient.name}</p>
+                                <p>Notes: {payment.notes}</p>
+                                <button
+                                    style={styles.payButton}
+                                    onClick={() => handlePayment(payment)}
+                                >
+                                    Pay
+                                </button>
+                            </div>
+                        )
                     ))}
                 </div>
             </div>
