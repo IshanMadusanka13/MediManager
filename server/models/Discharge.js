@@ -16,6 +16,10 @@ const DischargeSchema = new mongoose.Schema({
   notes: {
     type: String,
   },
+  status: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 module.exports = mongoose.model('Discharge', DischargeSchema);
