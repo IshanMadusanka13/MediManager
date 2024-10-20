@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './PaymentPage.css'; // Import the CSS file for styling
+import { useParams } from 'react-router-dom';
 
 const PaymentPage = () => {
 	const [paymentDetails, setPaymentDetails] = useState({
@@ -10,6 +11,7 @@ const PaymentPage = () => {
 		cvc: '',
 	});
 	const [errors, setErrors] = useState([]);
+	const { amount } = useParams();
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;

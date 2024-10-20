@@ -62,6 +62,7 @@ exports.getPatientById = async (req, res) => {
 exports.getPatientByEmail = async (req, res) => {
     try {
         const { email } = req.params;
+        console.log('Fetching patient by email:', email);
         const patient = await Patient.findOne({ email });
         if (!patient) return res.status(404).json({ message: 'Patient not found' });
         res.status(200).json(patient);
