@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaAddressCard,FaBed,FaUserMd, FaCalendarAlt, FaChartBar, FaCalendarCheck, FaListAlt } from 'react-icons/fa';
+import { FaAddressCard, FaBed, FaUserMd, FaCalendarAlt, FaChartBar, FaCalendarCheck, FaListAlt } from 'react-icons/fa';
 
 
 import axios from 'axios';
@@ -54,104 +54,116 @@ const HomePage = () => {
         <p style={styles.subtitle}>
           Revolutionizing healthcare management with cutting-edge technology
         </p>
-        
-          {user && user.userType === "Staff" && (
-            <div style={styles.featureGrid}>
-              <FeatureCard
-                title="View Appointments"
-                description="See all scheduled appointments"
-                icon={<FaListAlt />}
-                link="/appointmentview"
-              />
-              <FeatureCard
-                title="Bed Arrange"
-                description="See all bed arrangements"
-                icon={<FaBed />}
-                link="/bedshedule"
-              />
-              <FeatureCard
-                title="QR Scanner"
-                description="Scan QR codes"
-                icon={<BiQrScan />}
-                link="/scanningCard"
-              />
-            </div>
-          )}
-            {user && user.userType === "Patient" && (
-              <div style={styles.featureGrid}>
-                <FeatureCard
-                  title="Make Appointment"
-                  description="Schedule an appointment with a doctor"
-                  icon={<FaCalendarCheck />}
-                  link="/makeappoinment"
-                />
-                <FeatureCard
-                  title={hasHealthCard ? "Access My Health Card" : "Get Health Card"}
-                  description={hasHealthCard ? "View your digital health card" : "Apply for a digital health card"}
-                  icon={<BiQrScan />}
-                  link={hasHealthCard ? "/accessCard" : "/digitleHeathCard"}
-                />
-              </div>
-            )}
 
-          {user && user.userType === "Doctor" && (
-            <div style={styles.featureGrid}>
-              <FeatureCard
-                title="View Appointments"
-                description="See all scheduled appointments"
-                icon={<FaListAlt />}
-                link="/appointmentview"
-              />
-              <FeatureCard
-                title="QR Scanner"
-                description="Scan QR codes"
-                icon={<BiQrScan />}
-                link="/scanningCard"
-              />
-            </div>
-          )}
+        {user && user.userType === "Staff" && (
+          <div style={styles.featureGrid}>
+            <FeatureCard
+              title="View Appointments"
+              description="See all scheduled appointments"
+              icon={<FaListAlt />}
+              link="/appointmentview"
+            />
+            <FeatureCard
+              title="Patient Discharge/Checkout"
+              description="Check out patients"
+              icon={<FaListAlt />}
+              link="/discharge"
+            />
+            <FeatureCard
+              title="Bed Arrange"
+              description="See all bed arrangements"
+              icon={<FaBed />}
+              link="/bedshedule"
+            />
+            <FeatureCard
+              title="QR Scanner"
+              description="Scan QR codes"
+              icon={<BiQrScan />}
+              link="/scanningCard"
+            />
+          </div>
+        )}
+        {user && user.userType === "Patient" && (
+          <div style={styles.featureGrid}>
+            <FeatureCard
+              title="Make Appointment"
+              description="Schedule an appointment with a doctor"
+              icon={<FaCalendarCheck />}
+              link="/makeappoinment"
+            />
+            <FeatureCard
+              title="View Pending Payments"
+              description="See all pending payments"
+              icon={<FaListAlt />}
+              link="/payments"
+            />
+            <FeatureCard
+              title={hasHealthCard ? "Access My Health Card" : "Get Health Card"}
+              description={hasHealthCard ? "View your digital health card" : "Apply for a digital health card"}
+              icon={<BiQrScan />}
+              link={hasHealthCard ? "/accessCard" : "/digitleHeathCard"}
+            />
+          </div>
+        )}
 
-          {user && user.userType === "HSA" && (
-            <div style={styles.featureGrid}>
-              <FeatureCard
-                title="Staff Management"
-                description="Efficiently manage your medical staff with ease"
-                icon={<FaUserMd />}
-                link="/staff"
-              />
-              <FeatureCard
-                title="Smart Scheduling"
-                description="Optimize schedules for maximum efficiency"
-                icon={<FaCalendarAlt />}
-                link="/schedules"
-              />
-              <FeatureCard
-                title="Insightful Analytics"
-                description="Make data-driven decisions with powerful reports"
-                icon={<FaChartBar />}
-                link="/reports"
-              />
-              
-              <FeatureCard
-                title="Doctor Management"
-                description="Schedule an appointment with a doctor"
-                icon={<FaUserMd />}
-                link="/doctorMange"
-              />
+        {user && user.userType === "Doctor" && (
+          <div style={styles.featureGrid}>
+            <FeatureCard
+              title="View Appointments"
+              description="See all scheduled appointments"
+              icon={<FaListAlt />}
+              link="/appointmentview"
+            />
+            <FeatureCard
+              title="QR Scanner"
+              description="Scan QR codes"
+              icon={<BiQrScan />}
+              link="/scanningCard"
+            />
+          </div>
+        )}
 
-                  
-              
-            
-            </div>
-          )}
-        
+        {user && user.userType === "HSA" && (
+          <div style={styles.featureGrid}>
+            <FeatureCard
+              title="Staff Management"
+              description="Efficiently manage your medical staff with ease"
+              icon={<FaUserMd />}
+              link="/staff"
+            />
+            <FeatureCard
+              title="Smart Scheduling"
+              description="Optimize schedules for maximum efficiency"
+              icon={<FaCalendarAlt />}
+              link="/schedules"
+            />
+            <FeatureCard
+              title="Insightful Analytics"
+              description="Make data-driven decisions with powerful reports"
+              icon={<FaChartBar />}
+              link="/reports"
+            />
+
+            <FeatureCard
+              title="Doctor Management"
+              description="Schedule an appointment with a doctor"
+              icon={<FaUserMd />}
+              link="/doctorMange"
+            />
+
+
+
+
+          </div>
+        )}
+
       </main>
-      
+
     </div>
   );
 };
 const FeatureCard = ({ title, description, icon, link }) => (
-  <Link to={link} style={styles.featureCard}>    
+  <Link to={link} style={styles.featureCard}>
     <div style={styles.icon}>{icon}</div>
     <h2 style={styles.cardTitle}>{title}</h2>
     <p style={styles.cardDescription}>{description}</p>
