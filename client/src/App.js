@@ -18,6 +18,7 @@ import PaymentPage from './pages/paymentManagement/paymentPage';
 import WardManagePage from './pages/ManageWard/WardManagePage'
 import PatientDischarge from './pages/AppointmentManagement/PatientDischarge';
 import Analyze from './pages/Analyze/analyze';
+import PendingPaymentView from './pages/paymentManagement/ViewPendingPayments';
 
 const App = () => {
   return (
@@ -41,7 +42,8 @@ const App = () => {
             <Route path="/bedshedule" element={<WardManagePage />} />
             <Route path="/discharge/:patientId" element={<PatientDischarge />} />
             <Route path="/analyze" element={<Analyze />} />
-            <Route path='/paymentPage' element={<PaymentPage />} />
+            <Route path='/paymentPage/:amount' element={<PaymentPage />} />
+            <Route path='/payments' element={<PendingPaymentView />} />
 
           </Routes>
         </main>
