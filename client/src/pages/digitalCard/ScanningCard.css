@@ -5,7 +5,7 @@
 	justify-content: center;
 	padding: 20px;
 	min-height: 100vh;
-	background-image: url('../../images/digital.jpg');
+	background-image: url('../../images/medi.jpg');
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -27,12 +27,11 @@ h2 {
 }
 
 input[type='text'] {
-	padding: 10px;
+
 	margin: 10px 0;
-	border: 1px solid #ccc;
-	border-radius: 5px;
+	border: 1px solid #ffffff;
+		border-radius: 10px;
 	width: 100%;
-	max-width: 300px;
 }
 
 button {
@@ -91,18 +90,29 @@ button:hover {
 	border: none;
 	border-radius: 10px;
 	margin-bottom: 10px;
-	background: rgba(255, 255, 255, 0.4);
-	color: #333;
+	background: rgb(255, 255, 255);
+		color: #000000;
 	margin-right: 20px;
+	font-size: large;
 }
 
 .glass-input:focus {
 	outline: none;
-	background: rgba(255, 255, 255, 0.7);
+	background: rgb(249, 243, 243);
+		color: black;
+	}
+	
+	.glass-button {
+		color: white;
+		font-size: large;
+		font-weight: bold;
 }
 
 .glass-button:hover {
 	background-color: rgba(64, 195, 31, 0.4);
+	color: white;
+		font-size: large;
+		font-weight: bold;
 }
 
 @media (max-width: 768px) {

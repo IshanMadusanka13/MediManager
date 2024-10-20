@@ -84,16 +84,16 @@ const PaymentPage = () => {
 				<h2>Your Bill</h2>
 				<div className="bill-details">
 					<p>Hospital Charges: <span>Rs. 1500</span></p>
-					<br />
+
 					<p>Pharmacy Bill: <span>Rs. 500</span></p>
-					<br />
+
 					<p>Discounts: <span>Rs. 0</span></p>
-					<br />
+
 					<hr />
 					<p>Tax: <span>0%</span></p>
-					<br />
+
 					<p>Total Amount: <span>Rs. 2000</span></p>
-					<br />
+
 				</div>
 			</div>
 

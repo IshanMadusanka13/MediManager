@@ -1,6 +1,5 @@
 * {
-	padding: 0;
-	margin: 0;
+	
 	box-sizing: border-box;
 }
 
@@ -87,7 +86,7 @@ a {
 
 /* media queries */
 
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 1500px) {
 
 	/* hamburger */
 	.hamburger {
