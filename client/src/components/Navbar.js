@@ -68,7 +68,7 @@ function Navbar() {
           <a href='/' className={`${styles.logo}`}>MEDIMANAGER</a>
 
           <ul className={`${styles.navMenu} ${isActive ? styles.active : ''}`}>
-            {user && user.userType === 'Staff' && (
+            {/* {user && user.userType === 'Staff' && (
               <>
                 <li onClick={removeActive}>
                   <Link to="/scanningCard" style={{ color: 'white' }} className={isActiveLink("/scanningCard") ? styles.activeLink : ''}><BiQrScan />QR scanner</Link>
@@ -109,7 +109,7 @@ function Navbar() {
                   <Link to="/reports" style={{ color: 'white' }} className={isActiveLink("/reports") ? styles.activeLink : ''}><FaChartBar /> Reports</Link>
                 </li>
               </>
-            )}
+            )} */}
             <div style={{ marginLeft: 'auto', display: 'flex' }}>
           {user ? (
                 <li>

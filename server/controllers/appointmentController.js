@@ -1,14 +1,14 @@
 const Appointment = require('../models/Appointment');
 
 exports.createAppointment = async (req, res) => {
-    const { date, time, doctor, patient } = req.body;
+    const { date, time, doctor, patient, reason } = req.body;
     try {
-      if (!date || !time || !doctor || !patient) {
+      if (!date || !time || !doctor || !patient || !reason) {
         return res.status(400).json({ message: 'All fields are required' });
       }
-      const appointment = new Appointment({ date, time, doctor, patient });
-      await appointment.save();
-      res.status(201).json({ message: 'Appointment created successfully', appointment });
+      const appointment = new Appointment({ date, time, doctor, patient, reason });
+      const savedAppointment = await appointment.save();
+      res.status(201).json({ message: 'Appointment created successfully', appointment: savedAppointment });
     } catch (error) {
       console.error('Error creating appointment:', error);
       res.status(400).json({ message: 'Error creating appointment', error: error.message });
@@ -46,6 +46,7 @@ exports.deleteAppointment = async (req, res) => {
 exports.getLastWeekAppointmentCount = async (req, res) => {
   try {
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    
     
     const appointments = await Appointment.aggregate([
       {

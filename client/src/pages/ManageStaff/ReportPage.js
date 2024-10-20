@@ -1,9 +1,10 @@
   import React, { useState } from 'react';
-  import { FaFileDownload, FaUserMd, FaCalendarAlt } from 'react-icons/fa';
+  import { FaFileDownload, FaUserMd, FaCalendarAlt, FaChartBar } from 'react-icons/fa';
   import jsPDF from 'jspdf';
   import 'jspdf-autotable';
   import staffService from '../../services/staffService';
   import scheduleService from '../../services/scheduleService';
+  import backgroundImage from '../../images/mediback.jpg';
   //import Staff from '../../../../server/models/Staff';
   //import logo from '../../assets/hospital_logo.png';
 
@@ -114,6 +115,7 @@
     };
 
     return (
+      <div style={styles.backgroundImage}>
       <div style={styles.container}>
         <h1 style={styles.title}>Reports Dashboard</h1>
       
@@ -132,6 +134,12 @@
             onDownload={() => downloadPDF('schedule')}
             disabled={loading || !scheduleReport}
           />
+          <FeatureCard
+            title="Analytics"
+            description="Make data-driven decisions with powerful reports"
+            icon={<FaChartBar style={styles.cardIcon} />}
+            link="/analyze"
+          />
         </div>
 
         {loading && <p style={styles.loading}>Generating report...</p>}
@@ -144,22 +152,23 @@
           />
         )}
 
-{scheduleReport.length > 0 && (
-  <ReportTable
-    title="Schedule Report"
-    headers={['Staff ID', 'Staff Name', 'Email', 'Phone', 'Role', 'Date', 'Shift Start', 'Shift End']}
-    data={scheduleReport.map(schedule => [
-      schedule.staffId,
-      schedule.staffName,
-      schedule.staffEmail,
-      schedule.staffPhone,
-      schedule.staffRole,
-      new Date(schedule.date).toLocaleDateString(),
-      schedule.shiftStart,
-      schedule.shiftEnd
-    ])}
-  />
-)}
+            {scheduleReport.length > 0 && (
+              <ReportTable
+                title="Schedule Report"
+                headers={['Staff ID', 'Staff Name', 'Email', 'Phone', 'Role', 'Date', 'Shift Start', 'Shift End']}
+                data={scheduleReport.map(schedule => [
+                  schedule.staffId,
+                  schedule.staffName,
+                  schedule.staffEmail,
+                  schedule.staffPhone,
+                  schedule.staffRole,
+                  new Date(schedule.date).toLocaleDateString(),
+                  schedule.shiftStart,
+                  schedule.shiftEnd
+                ])}
+              />
+            )}
+      </div>
       </div>
     );
   };
@@ -177,8 +186,20 @@
     </div>
   );
 
+  const FeatureCard = ({ title, description, icon, link }) => (
+    <div style={styles.card}>
+      {icon}
+      <h2 style={styles.cardTitle}>{title}</h2>
+      <p style={styles.cardDescription}>{description}</p>
+      <a href={link} style={styles.linkButton}>
+        View Analytics
+      </a>
+    </div>
+  );
+  
+
   const ReportTable = ({ title, headers, data }) => (
-    <div style={styles.tableContainer}>
+    <div style={{...styles.tableContainer, background: 'linear-gradient(to bottom, #ffffff, #f0f0f0)'}}>
       <h2 style={styles.subtitle}>{title}</h2>
       <table style={styles.table}>
         <thead>
@@ -200,7 +221,6 @@
       </table>
     </div>
   );
-
   const styles = {
     container: {
       maxWidth: '1200px',
@@ -213,6 +233,23 @@
       marginBottom: '20px',
       color: '#333',
       textAlign: 'center',
+    },
+    cardDescription: {
+      fontSize: '14px',
+      color: '#666',
+      textAlign: 'center',
+      marginBottom: '15px',
+    },
+    linkButton: {
+      backgroundColor: '#2196F3',
+      color: 'white',
+      padding: '10px 15px',
+      fontSize: '16px',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer',
+      textDecoration: 'none',
+      display: 'inline-block',
     },
     cardContainer: {
       display: 'flex',
@@ -289,6 +326,41 @@
     },
     td: {
       padding: '12px',
+      borderBottom: '1px solid #ddd',
+    },
+    backgroundImage: {
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+
+    },
+    formContainer: {
+      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+      padding: '20px',
+      borderRadius: '10px',
+      marginBottom: '30px',
+    },
+    tableContainer: {
+      marginTop: '30px',
+      overflowX: 'auto',
+      borderRadius: '8px',
+      padding: '20px',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    },
+    table: {
+      width: '100%',
+      borderCollapse: 'separate',
+      borderSpacing: '0 5px',
+    },
+    th: {
+      backgroundColor: '#4CAF50',
+      color: 'white',
+      padding: '12px',
+      textAlign: 'left',
+      borderRadius: '4px 4px 0 0',
+    },
+    td: {
+      padding: '12px',
+      backgroundColor: 'rgba(255, 255, 255, 0.8)',
       borderBottom: '1px solid #ddd',
     },
   };

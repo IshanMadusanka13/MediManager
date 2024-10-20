@@ -5,7 +5,7 @@ const WardSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    wardTpe: {
+    wardType: {
         type: String,
         required: true,
     },

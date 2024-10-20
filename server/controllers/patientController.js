@@ -48,13 +48,16 @@ exports.deletePatient = async (req, res) => {
 
 exports.getPatientById = async (req, res) => {
     try {
-        const patient = await Patient.findById(req.params.id);
-        if (!patient) return res.status(404).json({ message: 'Patient not found' });
+        console.log('Fetching patient by ID:', req.params.id);
+        const patient = await Patient.findOne({ patientId: req.params.id });
+        if (!patient) { return res.status(404).json({ message: 'Patient not found' }); }
         res.status(200).json(patient);
     } catch (error) {
+        console.error('Error fetching patient by ID:', error);
         res.status(400).json({ message: 'Error fetching patient', error: error.message });
     }
 };
+
 
 exports.getPatientByEmail = async (req, res) => {
     try {

@@ -25,6 +25,7 @@ database.connect()
     const patientRoutes = require('./routes/patientRoutes');
     const wardRoutes = require('./routes/wardRoutes');
     const healthCardRoutes = require('./routes/healthcardRoutes'); 
+    const dischargeRoutes = require('./routes/dischargeRoutes'); 
 
     app.use('/api/auth', authRoutes);
     app.use('/api/staff', staffRoutes);
@@ -34,6 +35,7 @@ database.connect()
     app.use('/api/ward', wardRoutes);
     app.use('/api/patient', patientRoutes);
     app.use('/api/healthCard', healthCardRoutes); 
+    app.use('/api/discharge', dischargeRoutes); 
 
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
