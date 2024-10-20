@@ -38,7 +38,7 @@ const App = () => {
             <Route path="/accessCard" element={<AccessCard />} />
             <Route path="/scanningCard" element={<ScanningCard />} />
             <Route path="/bedshedule" element={<WardManagePage/>}/>
-            <Route path="/discharge" element={<PatientDischarge/>}/>
+            <Route path="/discharge/:patientId" element={<PatientDischarge/>}/>
             <Route path="/analyze" element={<Analyze/>}/>
           </Routes>
         </main>

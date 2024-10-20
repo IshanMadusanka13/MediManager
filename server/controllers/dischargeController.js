@@ -1,12 +1,13 @@
 const Discharge = require('../models/Discharge');
 
 exports.createDischarge = async (req, res) => {
-    const { patientId, dischargeDate, amountPaid, notes, dischargedBy } = req.body;
+    console.log('Received request to create discharge:', req.body);
+    const { patientId, dischargeDate, amountPaid, notes } = req.body;
     try {
-        if (!patientId || !dischargeDate || !amountPaid || !dischargedBy) {
+        if (!patientId || !dischargeDate || !amountPaid) {
             return res.status(400).json({ message: 'All fields are required' });
         }
-        const discharge = new Discharge({ patientId, dischargeDate, amountPaid, notes, dischargedBy });
+        const discharge = new Discharge({ patientId, dischargeDate, amountPaid, notes });
         await discharge.save();
         res.status(201).json({ message: 'Discharge record created successfully', discharge });
     } catch (error) {

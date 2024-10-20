@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import patientService from '../../services/patientService';
 import backgroundImage from '../../images/mediback.jpg';
 import dischargeService from '../../services/dischargeService';
 
-const PatientDischarge = ({ patientInfo }) => {
-    const [formData, setFormData] = useState({ amountToPay: '', dischargeDate: '', notes: '' });
+const PatientDischarge = () => {
+    const [formData, setFormData] = useState({ amountPaid: '', dischargeDate: '', notes: '' });
     const [patient, setPatient] = useState({ name: '', ID: '' });
     const navigate = useNavigate();
+    const location = useLocation();
     const { patientId } = useParams();
 
     useEffect(() => {
@@ -15,14 +16,30 @@ const PatientDischarge = ({ patientInfo }) => {
     }, []);
 
     const fetchPatient = async () => {
-        if (patientInfo) {
+        if (patientId !== 'null') {
+            setPatient({ name: '', ID: patientId });
             const patientData = await patientService.getPatientById(patientId);
-            setPatient(patientData.name);
+            setPatient({ name: patientData.name, ID: patientId });
+        } else {
+            setPatient({ name: '', ID: '' });
         }
     };
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handlePatientIDChange = async (e) => {
+        if (e.target.value.length === 5) {
+            setFormData({ ...formData, [e.target.name]: e.target.value });
+            setPatient({ name: '', ID: e.target.value });
+            const patientData = await patientService.getPatientById(e.target.value);
+            setPatient({ name: patientData.name, ID: e.target.value });
+        } else {
+            console.log('Invalid ID');
+            setPatient({ name: '', ID: e.target.value });
+            setFormData({ ...formData, [e.target.name]: e.target.value });
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -32,7 +49,7 @@ const PatientDischarge = ({ patientInfo }) => {
             dischargeDate: new Date(formData.dischargeDate).toISOString(),
         };
         await dischargeService.createDischarge(dischargeData);
-        navigate('/patients');
+        navigate('/');
     };
 
     return (
@@ -45,8 +62,8 @@ const PatientDischarge = ({ patientInfo }) => {
                             style={styles.input}
                             type="text"
                             name='patientId'
-                            value={patientId}
-                            onChange={handleInputChange}
+                            value={patient.ID}
+                            onChange={handlePatientIDChange}
                             placeholder="Patient ID"
                             required
                         />
@@ -61,8 +78,8 @@ const PatientDischarge = ({ patientInfo }) => {
                         <input
                             style={styles.input}
                             type="number"
-                            name="amountToPay"
-                            value={formData.amountToPay}
+                            name="amountPaid"
+                            value={formData.amountPaid}
                             onChange={handleInputChange}
                             placeholder="Amount to Pay"
                             required
