@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { QrReader } from 'react-qr-reader'; // Correct import
+import { QrReader } from 'react-qr-scanner'; // Correct import
 import axios from 'axios';
 import './ScanningCard.css';
 

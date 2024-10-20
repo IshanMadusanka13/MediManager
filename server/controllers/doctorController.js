@@ -11,9 +11,9 @@ exports.createDoctor = async (req, res) => {
 
     let password = Math.random().toString(36).slice(2, 8);
 
+    await auth.register(email, password, 'Doctor');
     const doctor = new Doctor({ name, email, password, speciality, phone, schedule, doctorId: newId });
     await doctor.save();
-    await auth.register(email, password, 'Doctor');
     
     sendMail.sendEmployeeInitialPassword(name, email, password);
 

@@ -5,10 +5,12 @@ exports.createStaff = async (req, res) => {
   const { name, email, phone, role } = req.body;
   try {
     const staff = new Staff({ name, email, phone, role });
-    await staff.save();
+    let password = Math.random().toString(36).slice(2, 8);
     await auth.register(email, password, 'Staff');
+    await staff.save();
     res.status(201).json({ message: 'Staff member created successfully', staffId: staff.staffId });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: 'Error creating staff member' });
   }
 };
@@ -18,6 +20,7 @@ exports.getAllStaff = async (req, res) => {
     const staff = await Staff.find();
     res.status(200).json(staff);
   } catch (error) {
+
     res.status(400).json({ message: 'Error fetching staff' });
   }
 };

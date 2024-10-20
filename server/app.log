@@ -147,3 +147,21 @@
 {"level":30,"time":1729194542638,"pid":13016,"hostname":"Prasad_Chandima","msg":"Database connection success!"}
 {"level":30,"time":1729194542639,"pid":13016,"hostname":"Prasad_Chandima","msg":"Connected to the database"}
 {"level":30,"time":1729194542735,"pid":13016,"hostname":"Prasad_Chandima","msg":"Server running on port 5000"}
+{"level":30,"time":1729339741792,"pid":12420,"hostname":"ALPHA","msg":"Database connection success!"}
+{"level":30,"time":1729339741793,"pid":12420,"hostname":"ALPHA","msg":"Connected to the database"}
+{"level":30,"time":1729339742144,"pid":12420,"hostname":"ALPHA","msg":"Server running on port 5000"}
+{"level":30,"time":1729396223066,"pid":23488,"hostname":"ALPHA","msg":"Database connection success!"}
+{"level":30,"time":1729396223067,"pid":23488,"hostname":"ALPHA","msg":"Connected to the database"}
+{"level":30,"time":1729396223246,"pid":23488,"hostname":"ALPHA","msg":"Server running on port 5000"}
+{"level":30,"time":1729396873652,"pid":29128,"hostname":"ALPHA","msg":"Database connection success!"}
+{"level":30,"time":1729396873653,"pid":29128,"hostname":"ALPHA","msg":"Connected to the database"}
+{"level":30,"time":1729396873769,"pid":29128,"hostname":"ALPHA","msg":"Server running on port 5000"}
+{"level":30,"time":1729396922979,"pid":31728,"hostname":"ALPHA","msg":"Database connection success!"}
+{"level":30,"time":1729396922980,"pid":31728,"hostname":"ALPHA","msg":"Connected to the database"}
+{"level":30,"time":1729396923094,"pid":31728,"hostname":"ALPHA","msg":"Server running on port 5000"}
+{"level":30,"time":1729397158010,"pid":19836,"hostname":"ALPHA","msg":"Database connection success!"}
+{"level":30,"time":1729397158011,"pid":19836,"hostname":"ALPHA","msg":"Connected to the database"}
+{"level":30,"time":1729397158127,"pid":19836,"hostname":"ALPHA","msg":"Server running on port 5000"}
+{"level":30,"time":1729397444311,"pid":14772,"hostname":"ALPHA","msg":"Database connection success!"}
+{"level":30,"time":1729397444312,"pid":14772,"hostname":"ALPHA","msg":"Connected to the database"}
+{"level":30,"time":1729397444429,"pid":14772,"hostname":"ALPHA","msg":"Server running on port 5000"}

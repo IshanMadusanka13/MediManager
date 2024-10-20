@@ -26,6 +26,12 @@ const HomePage = () => {
                 icon={<FaListAlt />}
                 link="/appointmentview"
               />
+              <FeatureCard
+              title="Bed Arrenge"
+              description="See all bed arrengements"
+              icon={<FaListAlt />}
+              link="/bedshedule"
+            />
             </div>
           )}
 

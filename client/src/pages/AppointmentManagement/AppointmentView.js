@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import appointmentService from '../../services/appointmentService';
+import backgroundImage from '../../images/mediback.jpg';
 
 const AppointmentView = () => {
   const [appointments, setAppointments] = useState([]);
@@ -14,6 +15,7 @@ const AppointmentView = () => {
   };
 
   return (
+    <div style={styles.backgroundImage}>
     <div style={styles.container}>
       <h1 style={styles.title}>All Appointments</h1>
       <div style={styles.appointmentList}>
@@ -26,6 +28,7 @@ const AppointmentView = () => {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };
@@ -99,6 +102,11 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
   },
+  backgroundImage: {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+
+  }
 };
 
 export default AppointmentView;

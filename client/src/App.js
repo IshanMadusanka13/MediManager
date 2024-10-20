@@ -14,27 +14,32 @@ import Footer from './components/Footer';
 import DigitleHeathCard from './pages/digitalCard/DigitleHeathCard';
 import AccessCard from './pages/digitalCard/AccessCard';
 import ScanningCard from './pages/digitalCard/ScanningCard';
+import WardManagePage from './pages/ManageWard/WardManagePage'
 
 const App = () => {
   return (
     <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/staff" element={<StaffManagePage />} />
-        <Route path="/schedules" element={<StaffSchedulePage />} />
-        <Route path="/reports" element={<ReportPage />} />
-        <Route path="/digitleHeathCard" element={<DigitleHeathCard />} />
-        <Route path="/makeappoinment" element={<MakeAppointmentPage />} />
-        <Route path="/appointmentview" element={<AppointmentViwe />} />
-        <Route path="/doctorMange" element={<DoctorManage />} />
-        <Route path="/accessCard" element={<AccessCard />} />
-        <Route path="/scanningCard" element={<ScanningCard />} />
-
-      </Routes>
-      <Footer />
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <Navbar />
+        <main style={{ flex: 1 }}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/staff" element={<StaffManagePage />} />
+            <Route path="/schedules" element={<StaffSchedulePage />} />
+            <Route path="/reports" element={<ReportPage />} />
+            <Route path="/digitleHeathCard" element={<DigitleHeathCard />} />
+            <Route path="/makeappoinment" element={<MakeAppointmentPage />} />
+            <Route path="/appointmentview" element={<AppointmentViwe />} />
+            <Route path="/doctorMange" element={<DoctorManage />} />
+            <Route path="/accessCard" element={<AccessCard />} />
+            <Route path="/scanningCard" element={<ScanningCard />} />
+            <Route path="/bedshedule" element={<WardManagePage/>}/>
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 };

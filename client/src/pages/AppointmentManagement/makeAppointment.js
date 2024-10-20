@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import appointmentService from '../../services/appointmentService';
 import { useNavigate } from 'react-router-dom';
 import patientService from '../../services/patientService';
+import backgroundImage from '../../images/mediback.jpg';
 
 const MakeAppointment = () => {
   const [appointments, setAppointments] = useState([]);
@@ -59,7 +60,9 @@ const MakeAppointment = () => {
   };
 
   return (
+    <div style={styles.backgroundImage}>
     <div style={styles.container}>
+    <div style={styles.formContainer}>
       <h1 style={styles.title}>Manage Appointments</h1>
 
       <form onSubmit={handleSubmit} style={styles.form}>
@@ -102,7 +105,7 @@ const MakeAppointment = () => {
           {editingId ? 'Update Appointment' : 'Add Appointment'}
         </button>
       </form>
-
+      </div>
       <div style={styles.appointmentList}>
         <h2 style={styles.subtitle}>Appointment List</h2>
         {appointments.map((appointment) => (
@@ -118,6 +121,7 @@ const MakeAppointment = () => {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };
@@ -191,6 +195,17 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
   },
+  backgroundImage: {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+
+  },
+  formContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    padding: '20px',
+    borderRadius: '10px',
+    marginBottom: '30px',
+  }
 };
 
 export default MakeAppointment;

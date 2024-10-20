@@ -1,5 +1,6 @@
   import React, { useState, useEffect } from 'react';
   import doctorService from '../../services/doctorService';
+  import backgroundImage from '../../images/mediback.jpg';
 
   const DoctorManagePage = () => {
     const [doctors, setDoctors] = useState([]);
@@ -61,7 +62,9 @@
     };
 
     return (
+      <div style={styles.backgroundImage}>
       <div style={styles.container}>
+      <div style={styles.formContainer}>
         <h1 style={styles.title}>Manage Doctors</h1>
       
         <form onSubmit={handleSubmit} style={styles.form}>
@@ -135,6 +138,7 @@
             {editingId ? 'Update Doctor' : 'Add Doctor'}
           </button>
         </form>
+        </div>
 
         <div style={styles.doctorList}>
           <h2 style={styles.subtitle}>Doctor List</h2>
@@ -156,6 +160,7 @@
             </div>
           ))}
         </div>
+      </div>
       </div>
     );
   };
@@ -244,6 +249,17 @@
       justifyContent: 'space-between',
       marginBottom: '10px',
     },
+    backgroundImage: {
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+
+    },
+    formContainer: {
+      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+      padding: '20px',
+      borderRadius: '10px',
+      marginBottom: '30px',
+    }
   };
 
   export default DoctorManagePage;
