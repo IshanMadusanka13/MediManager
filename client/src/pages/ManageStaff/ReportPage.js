@@ -1,5 +1,5 @@
   import React, { useState } from 'react';
-  import { FaFileDownload, FaUserMd, FaCalendarAlt } from 'react-icons/fa';
+  import { FaFileDownload, FaUserMd, FaCalendarAlt, FaChartBar } from 'react-icons/fa';
   import jsPDF from 'jspdf';
   import 'jspdf-autotable';
   import staffService from '../../services/staffService';
@@ -134,6 +134,12 @@
             onDownload={() => downloadPDF('schedule')}
             disabled={loading || !scheduleReport}
           />
+          <FeatureCard
+            title="Analytics"
+            description="Make data-driven decisions with powerful reports"
+            icon={<FaChartBar style={styles.cardIcon} />}
+            link="/analyze"
+          />
         </div>
 
         {loading && <p style={styles.loading}>Generating report...</p>}
@@ -180,6 +186,18 @@
     </div>
   );
 
+  const FeatureCard = ({ title, description, icon, link }) => (
+    <div style={styles.card}>
+      {icon}
+      <h2 style={styles.cardTitle}>{title}</h2>
+      <p style={styles.cardDescription}>{description}</p>
+      <a href={link} style={styles.linkButton}>
+        View Analytics
+      </a>
+    </div>
+  );
+  
+
   const ReportTable = ({ title, headers, data }) => (
     <div style={{...styles.tableContainer, background: 'linear-gradient(to bottom, #ffffff, #f0f0f0)'}}>
       <h2 style={styles.subtitle}>{title}</h2>
@@ -215,6 +233,23 @@
       marginBottom: '20px',
       color: '#333',
       textAlign: 'center',
+    },
+    cardDescription: {
+      fontSize: '14px',
+      color: '#666',
+      textAlign: 'center',
+      marginBottom: '15px',
+    },
+    linkButton: {
+      backgroundColor: '#2196F3',
+      color: 'white',
+      padding: '10px 15px',
+      fontSize: '16px',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer',
+      textDecoration: 'none',
+      display: 'inline-block',
     },
     cardContainer: {
       display: 'flex',

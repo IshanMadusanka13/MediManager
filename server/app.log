@@ -165,3 +165,18 @@
 {"level":30,"time":1729397444311,"pid":14772,"hostname":"ALPHA","msg":"Database connection success!"}
 {"level":30,"time":1729397444312,"pid":14772,"hostname":"ALPHA","msg":"Connected to the database"}
 {"level":30,"time":1729397444429,"pid":14772,"hostname":"ALPHA","msg":"Server running on port 5000"}
+{"level":30,"time":1729405536844,"pid":11268,"hostname":"ALPHA","msg":"Database connection success!"}
+{"level":30,"time":1729405536845,"pid":11268,"hostname":"ALPHA","msg":"Connected to the database"}
+{"level":30,"time":1729405537177,"pid":11268,"hostname":"ALPHA","msg":"Server running on port 5000"}
+{"level":30,"time":1729406096624,"pid":25940,"hostname":"ALPHA","msg":"Database connection success!"}
+{"level":30,"time":1729406096626,"pid":25940,"hostname":"ALPHA","msg":"Connected to the database"}
+{"level":30,"time":1729406096810,"pid":25940,"hostname":"ALPHA","msg":"Server running on port 5000"}
+{"level":30,"time":1729406223416,"pid":28412,"hostname":"ALPHA","msg":"Database connection success!"}
+{"level":30,"time":1729406223417,"pid":28412,"hostname":"ALPHA","msg":"Connected to the database"}
+{"level":30,"time":1729406223612,"pid":28412,"hostname":"ALPHA","msg":"Server running on port 5000"}
+{"level":30,"time":1729406425845,"pid":28928,"hostname":"ALPHA","msg":"Database connection success!"}
+{"level":30,"time":1729406425846,"pid":28928,"hostname":"ALPHA","msg":"Connected to the database"}
+{"level":30,"time":1729406426062,"pid":28928,"hostname":"ALPHA","msg":"Server running on port 5000"}
+{"level":30,"time":1729407007632,"pid":30552,"hostname":"ALPHA","msg":"Database connection success!"}
+{"level":30,"time":1729407007633,"pid":30552,"hostname":"ALPHA","msg":"Connected to the database"}
+{"level":30,"time":1729407007766,"pid":30552,"hostname":"ALPHA","msg":"Server running on port 5000"}

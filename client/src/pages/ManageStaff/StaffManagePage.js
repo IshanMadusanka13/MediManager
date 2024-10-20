@@ -6,6 +6,8 @@
     const [staff, setStaff] = useState([]);
     const [formData, setFormData] = useState({ name: '', email: '', phone: '', role: '' });
     const [editingId, setEditingId] = useState(null);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+const [staffToDelete, setStaffToDelete] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
@@ -38,12 +40,22 @@
       setEditingId(staffMember._id);
     };
 
-    const handleDelete = async (id) => {
-      await staffService.deleteStaff(id);
-      fetchStaff();
+    const handleDelete = (id) => {
+      setStaffToDelete(id);
+      setShowDeleteConfirm(true);
+    };
+    
+    const confirmDelete = async () => {
+      if (staffToDelete) {
+        await staffService.deleteStaff(staffToDelete);
+        fetchStaff();
+        setShowDeleteConfirm(false);
+        setStaffToDelete(null);
+      }
     };
 
-    const filteredStaff = staff.filter(staffMember => {
+    const filteredStaff = searchTerm
+  ? staff.filter(staffMember => {
       const searchLower = searchTerm.toLowerCase();
       return (
         staffMember.name.toLowerCase().includes(searchLower) ||
@@ -52,7 +64,8 @@
         staffMember.phone.includes(searchTerm) ||
         staffMember.staffId.toLowerCase().includes(searchLower)
       );
-    });
+    })
+  : [];
 
     return (
       <div>
@@ -112,22 +125,35 @@
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
-          <div style={styles.staffList}>
-            <h2 style={styles.subtitle}>Staff List</h2>
-            {filteredStaff.map((staffMember) => (
-              <div key={staffMember._id} style={styles.staffCard}>
-               <h3>Staff ID : {staffMember.staffId}</h3>
-                <p>Name  : {staffMember.name}</p>
-                <p>Email : {staffMember.email}</p>
-                <p>Phone : {staffMember.phone}</p>
-                <p>Role  : {staffMember.role}</p>
-                <div style={styles.cardActions}>
-                  <button style={styles.editButton} onClick={() => handleEdit(staffMember)}>Edit</button>
-                  <button style={styles.deleteButton} onClick={() => handleDelete(staffMember._id)}>Delete</button>
-                </div>
-              </div>
-            ))}
-          </div>
+{searchTerm && (
+  <div style={styles.staffList}>
+    <h2 style={styles.subtitle}>Staff List</h2>
+    {filteredStaff.map((staffMember) => (
+      <div key={staffMember._id} style={styles.staffCard}>
+        <h3>Staff ID : {staffMember.staffId}</h3>
+        <p>Name  : {staffMember.name}</p>
+        <p>Email : {staffMember.email}</p>
+        <p>Phone : {staffMember.phone}</p>
+        <p>Role  : {staffMember.role}</p>
+        <div style={styles.cardActions}>
+          <button style={styles.editButton} onClick={() => handleEdit(staffMember)}>Edit</button>
+          <button style={styles.deleteButton} onClick={() => handleDelete(staffMember._id)}>Delete</button>
+        </div>
+      </div>
+    ))}
+  </div>
+)}
+{showDeleteConfirm && (
+  <div style={styles.overlay}>
+    <div style={styles.popup}>
+      <p>Are you sure you want to delete this staff member?</p>
+      <div style={styles.popupButtons}>
+        <button style={styles.confirmButton} onClick={confirmDelete}>Yes</button>
+        <button style={styles.cancelButton} onClick={() => setShowDeleteConfirm(false)}>No</button>
+      </div>
+    </div>
+  </div>
+)}
         </div>
         </div>
       </div>
@@ -155,6 +181,45 @@
         fontSize: '16px',
         borderRadius: '4px',
         border: '1px solid #ddd',
+      },
+      overlay: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      popup: {
+        backgroundColor: 'white',
+        padding: '20px',
+        borderRadius: '8px',
+        textAlign: 'center',
+      },
+      popupButtons: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '20px',
+      },
+      confirmButton: {
+        backgroundColor: '#f44336',
+        color: 'white',
+        padding: '10px 20px',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        marginRight: '10px',
+      },
+      cancelButton: {
+        backgroundColor: '#4CAF50',
+        color: 'white',
+        padding: '10px 20px',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
       },
       button: {
         backgroundColor: '#4CAF50',

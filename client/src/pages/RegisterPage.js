@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
+import backgroundImage from '../images/mediback.jpg';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
@@ -29,6 +30,7 @@ const RegisterPage = () => {
   };
 
   return (
+    <div style={styles.backgroundImage}>
     <div style={styles.container}>
       <div style={styles.registerBox}>
         <h1 style={styles.title}>MediManager</h1>
@@ -55,17 +57,7 @@ const RegisterPage = () => {
               placeholder="Enter your email"
             />
           </div>
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>User Type</label>
-            <select
-              value={userType}
-              onChange={(e) => setUserType(e.target.value)}
-              style={styles.input}
-            >
-              <option value="Patient">Patient</option>
-              <option value="Staff">Staff</option>
-            </select>
-          </div>
+          
           <div style={styles.inputGroup}>
           <label style={styles.label}>Phone Number</label>
             <input
@@ -130,16 +122,18 @@ const RegisterPage = () => {
         </p>
       </div>
     </div>
+    </div>
   );
 };
 
 const styles = {
   container: {
+    padding: '20px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    height: '100%',
+    
   },
   registerBox: {
     background: 'white',
@@ -154,6 +148,11 @@ const styles = {
     fontSize: '28px',
     textAlign: 'center',
     marginBottom: '10px',
+  },
+  backgroundImage: {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+
   },
   subtitle: {
     color: '#666',

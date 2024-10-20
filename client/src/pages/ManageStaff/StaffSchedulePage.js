@@ -6,6 +6,8 @@
   const StaffSchedulePage = () => {
     const [schedules, setSchedules] = useState([]);
     const [staff, setStaff] = useState([]);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+const [scheduleToDelete, setScheduleToDelete] = useState(null);
     const [formData, setFormData] = useState({
       staffId: '',
       date: '',
@@ -48,9 +50,18 @@
       fetchSchedules();
     };
 
-    const handleDelete = async (id) => {
-      await scheduleService.deleteSchedule(id);
-      fetchSchedules();
+    const handleDelete = (id) => {
+      setScheduleToDelete(id);
+      setShowDeleteConfirm(true);
+    };
+    
+    const confirmDelete = async () => {
+      if (scheduleToDelete) {
+        await scheduleService.deleteSchedule(scheduleToDelete);
+        fetchSchedules();
+        setShowDeleteConfirm(false);
+        setScheduleToDelete(null);
+      }
     };
 
     const handleEdit = (schedule) => {
@@ -63,7 +74,8 @@
       setEditingId(schedule._id);
     };
 
-    const filteredSchedules = schedules.filter(schedule => {
+    const filteredSchedules = searchTerm
+  ? schedules.filter(schedule => {
       const staffMember = schedule.staffId;
       const searchLower = searchTerm.toLowerCase();
       return (
@@ -73,7 +85,8 @@
         staffMember.role.toLowerCase().includes(searchLower) ||
         staffMember.phone.includes(searchTerm)
       );
-    });
+    })
+  : [];
 
     return (
       <div style={styles.backgroundImage}>
@@ -134,26 +147,41 @@
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
-        <div style={styles.scheduleList}>
-          <h2 style={styles.subtitle}>Schedule List</h2>
-          {filteredSchedules.map((schedule) => (
-            schedule && schedule.staffId && (
-              <div key={schedule._id} style={styles.scheduleCard}>
-                <h3>Staff ID : {schedule.staffId.staffId}</h3>
-                <p>Name : {schedule.staffId.name}</p>
-                <p>Email : {schedule.staffId.email}</p>
-                <p>Role : {schedule.staffId.role}</p>
-                <p>Phone : {schedule.staffId.phone}</p>
-                <p>Date: {new Date(schedule.date).toLocaleDateString()}</p>
-                <p>Shift: {schedule.shiftStart} - {schedule.shiftEnd}</p>
-                <div style={styles.cardActions}>
-                  <button style={styles.editButton} onClick={() => handleEdit(schedule)}>Edit</button>
-                  <button style={styles.deleteButton} onClick={() => handleDelete(schedule._id)}>Delete</button>
-                </div>
-              </div>
-            )
-          ))}
+{searchTerm && (
+  <div style={styles.scheduleList}>
+    <h2 style={styles.subtitle}>Schedule List</h2>
+    {filteredSchedules.map((schedule) => (
+      schedule && schedule.staffId && (
+        <div key={schedule._id} style={styles.scheduleCard}>
+          <h3>Staff ID : {schedule.staffId.staffId}</h3>
+          <p>Name : {schedule.staffId.name}</p>
+          <p>Email : {schedule.staffId.email}</p>
+          <p>Role : {schedule.staffId.role}</p>
+          <p>Phone : {schedule.staffId.phone}</p>
+          <p>Date: {new Date(schedule.date).toLocaleDateString()}</p>
+          <p>Shift: {schedule.shiftStart} - {schedule.shiftEnd}</p>
+          <div style={styles.cardActions}>
+            <button style={styles.editButton} onClick={() => handleEdit(schedule)}>Edit</button>
+            <button style={styles.deleteButton} onClick={() => handleDelete(schedule._id)}>Delete</button>
+          </div>
         </div>
+      )
+    ))}
+  </div>
+)}
+
+{showDeleteConfirm && (
+  <div style={styles.overlay}>
+    <div style={styles.popup}>
+      <p>Are you sure you want to delete this schedule?</p>
+      <div style={styles.popupButtons}>
+        <button style={styles.confirmButton} onClick={confirmDelete}>Yes</button>
+        <button style={styles.cancelButton} onClick={() => setShowDeleteConfirm(false)}>No</button>
+      </div>
+    </div>
+  </div>
+)}
+
       </div>
       </div>
     );
@@ -170,6 +198,46 @@
       marginBottom: '20px',
       color: '#333',
     },
+    overlay: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    popup: {
+      backgroundColor: 'white',
+      padding: '20px',
+      borderRadius: '8px',
+      textAlign: 'center',
+    },
+    popupButtons: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: '20px',
+    },
+    confirmButton: {
+      backgroundColor: '#f44336',
+      color: 'white',
+      padding: '10px 20px',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer',
+      marginRight: '10px',
+    },
+    cancelButton: {
+      backgroundColor: '#4CAF50',
+      color: 'white',
+      padding: '10px 20px',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer',
+    },
+    
     form: {
       display: 'flex',
       flexDirection: 'column',
