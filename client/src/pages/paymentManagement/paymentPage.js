@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import './PaymentPage.css'; // Import the CSS file for styling
-import { useParams } from 'react-router-dom';
+import './PaymentPage.css';
+import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
+import OtpModal from './OtpModal'; // Import the OTP modal
 
 const PaymentPage = () => {
 	const [paymentDetails, setPaymentDetails] = useState({
@@ -11,32 +12,48 @@ const PaymentPage = () => {
 		cvc: '',
 	});
 	const [errors, setErrors] = useState([]);
-	const { amount } = useParams();
+	const { amount } = useParams(); 
+	const [isOtpModalOpen, setIsOtpModalOpen] = useState(false); // State to control OTP modal
+	const navigate = useNavigate(); // Initialize useNavigate for redirection
+
+	const pharmacyBill = 500;
+	const tax = 0;
+	const discount = 0;
+
+	const totalAmount = parseFloat(amount) + pharmacyBill - discount + tax;
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
-		setPaymentDetails({ ...paymentDetails, [name]: value });
+
+		if (name === 'expiryDate') {
+			let formattedValue = value.replace(/\D/g, '');
+			if (formattedValue.length >= 2) {
+				formattedValue = formattedValue.slice(0, 2) + '/' + formattedValue.slice(2, 4);
+			}
+			if (formattedValue.length < 5 && formattedValue.length === 2) {
+				formattedValue = formattedValue.slice(0, 2);
+			}
+			setPaymentDetails({ ...paymentDetails, [name]: formattedValue });
+		} else {
+			setPaymentDetails({ ...paymentDetails, [name]: value });
+		}
 	};
 
 	const validatePaymentDetails = () => {
 		const newErrors = [];
 
-		// Full Name validation
 		if (!paymentDetails.fullName) {
 			newErrors.push('Full name is required');
 		}
 
-		// Bank validation
 		if (!paymentDetails.bank) {
 			newErrors.push('Bank name is required');
 		}
 
-		// Card Number validation
 		if (!/^\d{4} \d{4} \d{4} \d{4}$/.test(paymentDetails.cardNumber)) {
 			newErrors.push('Card number must be a valid 16-digit number');
 		}
 
-		// Expiry Date validation (must match MM/YY format and be a future date)
 		const expiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
 		if (!expiryRegex.test(paymentDetails.expiryDate)) {
 			newErrors.push('Expiry date must be in MM/YY format');
@@ -44,39 +61,45 @@ const PaymentPage = () => {
 			const [month, year] = paymentDetails.expiryDate.split('/');
 			const currentYear = new Date().getFullYear() % 100;
 			const currentMonth = new Date().getMonth() + 1;
+
+			if (parseInt(month, 10) < 1 || parseInt(month, 10) > 12) {
+				newErrors.push('Month must be between 01 and 12');
+			}
+
 			if (parseInt(year, 10) < currentYear || (parseInt(year, 10) === currentYear && parseInt(month, 10) < currentMonth)) {
 				newErrors.push('Expiry date must be in the future');
 			}
 		}
 
-		// CVC validation
 		if (!/^\d{3}$/.test(paymentDetails.cvc)) {
 			newErrors.push('CVC must be a 3-digit number');
 		}
 
 		setErrors(newErrors);
-		return newErrors.length === 0; // If no errors, return true
+		return newErrors.length === 0;
 	};
 
 	const handlePayment = () => {
 		if (validatePaymentDetails()) {
-			// Handle the payment logic here (e.g., submit to payment API)
-			console.log('Processing payment', paymentDetails);
+			setIsOtpModalOpen(true); // Open OTP modal if validation passes
 		} else {
 			console.log('Payment validation failed', errors);
 		}
 	};
 
+	const handleOtpSubmit = (otp) => {
+		if (otp === '111111') { // Check if the entered OTP is correct
+			alert("Payment successfully processed!"); // Show success message
+			navigate('/payments'); // Redirect to ViewPendingPayments page
+		} else {
+			alert("Incorrect OTP. Please try again."); // Show error message for incorrect OTP
+		}
+	};
+
 	const handleCardNumberChange = (e) => {
 		let { value } = e.target;
-
-		// Remove all non-digit characters (this ensures we remove any previous formatting)
 		value = value.replace(/\D/g, '');
-
-		// Insert spaces every 4 digits
 		value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-
-		// Update the state with the formatted card number
 		setPaymentDetails({ ...paymentDetails, cardNumber: value });
 	};
 
@@ -85,24 +108,18 @@ const PaymentPage = () => {
 			<div className="bill-section">
 				<h2>Your Bill</h2>
 				<div className="bill-details">
-					<p>Hospital Charges: <span>Rs. 1500</span></p>
-
-					<p>Pharmacy Bill: <span>Rs. 500</span></p>
-
-					<p>Discounts: <span>Rs. 0</span></p>
-
+					<p>Hospital Charges: <span>Rs. {amount}</span></p>
+					<p>Pharmacy Bill: <span>Rs. {pharmacyBill}</span></p>
+					<p>Discounts: <span>Rs. {discount}</span></p>
 					<hr />
-					<p>Tax: <span>0%</span></p>
-
-					<p>Total Amount: <span>Rs. 2000</span></p>
-
+					<p>Tax: <span>{tax}%</span></p>
+					<p>Total Amount: <span>Rs. {totalAmount}</span></p>
 				</div>
 			</div>
 
 			<div className="payment-section">
 				<h2>Payment Gateway</h2>
 
-				{/* Display validation errors at the top of the form */}
 				{errors.length > 0 && (
 					<div className="error-messages">
 						<ul>
@@ -122,22 +139,32 @@ const PaymentPage = () => {
 						onChange={handleInputChange}
 					/>
 
-					<input
-						type="text"
+					<select
 						name="bank"
-						placeholder="Bank"
 						value={paymentDetails.bank}
 						onChange={handleInputChange}
-					/>
+					>
+						<option value="">Select Bank</option>
+						<option value="Bank of Ceylon">Bank of Ceylon</option>
+						<option value="Peoples Bank">Peoples Bank</option>
+						<option value="National Savings Bank">National Savings Bank</option>
+						<option value="Housing Development Finance Corporation (HDFC)">
+							Housing Development Finance Corporation (HDFC)
+						</option>
+						<option value="Lankaputhra Development Bank">Lankaputhra Development Bank</option>
+						<option value="Pradeshiya Sanwardena Bank">Pradeshiya Sanwardena Bank</option>
+						<option value="Sri Lanka Savings Bank">Sri Lanka Savings Bank</option>
+						<option value="Employment Trust Fund Board">Employment Trust Fund Board</option>
+					</select>
 
 					<input
-						type="text" // Use text input for custom formatting
+						type="text"
 						name="cardNumber"
 						placeholder="Card Number"
 						value={paymentDetails.cardNumber}
-						onChange={handleCardNumberChange} // Use a custom function for handling input
-						maxLength={19} // Limit to 19 characters including spaces
-						pattern="[0-9 ]{19}" // Accept only numbers and spaces, with exact length of 19
+						onChange={handleCardNumberChange}
+						maxLength={19}
+						pattern="[0-9 ]{19}"
 						title="Enter a valid 16-digit card number (e.g., 4598 2548 1487 3252)"
 					/>
 
@@ -148,8 +175,8 @@ const PaymentPage = () => {
 							placeholder="MM/YY"
 							value={paymentDetails.expiryDate}
 							onChange={handleInputChange}
-							maxLength="5" // Limit input length to 5 characters
-							pattern="(0[1-9]|1[0-2])\/[0-9]{2}" // Regex pattern for MM/YY format
+							maxLength="5"
+							pattern="(0[1-9]|1[0-2])\/[0-9]{2}"
 						/>
 
 						<input
@@ -165,6 +192,14 @@ const PaymentPage = () => {
 					<button onClick={handlePayment}>Pay</button>
 				</div>
 			</div>
+
+			{/* Render the OTP Modal */}
+			{isOtpModalOpen && (
+				<OtpModal
+					onClose={() => setIsOtpModalOpen(false)}
+					onSubmit={handleOtpSubmit}
+				/>
+			)}
 		</div>
 	);
 };
