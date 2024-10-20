@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
+import backgroundImage from '../images/mediback.jpg';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -22,6 +23,7 @@ const LoginPage = () => {
   };
 
   return (
+    <div style={styles.backgroundImage}>
     <div style={styles.container}>
       <div style={styles.loginBox}>
         <h1 style={styles.title}>MediManager</h1>
@@ -57,6 +59,7 @@ const LoginPage = () => {
         </p>
       </div>
     </div>
+    </div>
   );
 };
 
@@ -66,7 +69,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    
   },
   loginBox: {
     background: 'white',
@@ -81,6 +84,11 @@ const styles = {
     fontSize: '28px',
     textAlign: 'center',
     marginBottom: '10px',
+  },
+  backgroundImage: {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+
   },
   subtitle: {
     color: '#666',

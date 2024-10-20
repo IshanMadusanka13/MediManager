@@ -86,15 +86,15 @@ const HomePage = () => {
                 icon={<FaUserMd />}
                 link="/doctorMange"
               />
+
+                  
               
             
             </div>
           )}
         
       </main>
-      <footer style={styles.footer}>
-        <p>© 2024 MediManager. All rights reserved.</p>
-      </footer>
+      
     </div>
   );
 };

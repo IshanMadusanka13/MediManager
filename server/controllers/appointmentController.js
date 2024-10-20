@@ -46,6 +46,7 @@ exports.deleteAppointment = async (req, res) => {
 exports.getLastWeekAppointmentCount = async (req, res) => {
   try {
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    console.log(sevenDaysAgo);
     
     const appointments = await Appointment.aggregate([
       {
