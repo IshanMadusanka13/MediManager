@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Navbar.module.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import {
   FaHospital,
@@ -19,16 +19,14 @@ import { BiQrScan } from "react-icons/bi";
 
 
 function Navbar() {
-  // adding the states 
   const [isActive, setIsActive] = useState(false);
-  //add the active class
-  const toggleActiveClass = () => {
-    setIsActive(!isActive);
-  };
-  //clean up function to remove the active class
-  const removeActive = () => {
-    setIsActive(false)
-  }
+
+  const toggleActiveClass = () => setIsActive(!isActive);
+  const removeActive = () => setIsActive(false);
+
+  const isActiveLink = (path) => location.pathname === path;
+
+  const location = useLocation();
 
   const [user, setUser] = useState(null);
   const [hasHealthCard, setHasHealthCard] = useState(false);
@@ -73,57 +71,58 @@ function Navbar() {
             {user && user.userType === 'Staff' && (
               <>
                 <li onClick={removeActive}>
-                  <Link to="/scanningCard" style={{ color: 'white' }}><BiQrScan />QR scanner</Link>
+                  <Link to="/scanningCard" style={{ color: 'white' }} className={isActiveLink("/scanningCard") ? styles.activeLink : ''}><BiQrScan />QR scanner</Link>
                 </li>
                 <li onClick={removeActive}>
-                  <Link to="/makeappoinment" style={{ color: 'white' }}><FaCalendarCheck /> Make Appointment</Link>
+                  <Link to="/makeappoinment" style={{ color: 'white' }} className={isActiveLink("/makeappoinment") ? styles.activeLink : ''}><FaCalendarCheck /> Make Appointment</Link>
                 </li>
                 <li onClick={removeActive}>
-                  <Link to="/appointmentview" style={{ color: 'white' }}><FaListAlt /> View Appointments</Link>
+                  <Link to="/appointmentview" style={{ color: 'white' }} className={isActiveLink("/appointmentview") ? styles.activeLink : ''}><FaListAlt /> View Appointments</Link>
                 </li>
               </>
             )}
             {user && user.userType === 'Patient' && (
               <>
                 <li onClick={removeActive}>
-                  <Link to={hasHealthCard ? "/accessCard" : "/digitleHeathCard"} style={{ color: 'white' }}>
+                  <Link to={hasHealthCard ? "/accessCard" : "/digitleHeathCard"} style={{ color: 'white' }} className={isActiveLink("/accessCard") || isActiveLink("/digitleHeathCard") ? styles.activeLink : ''}>
                     <FaAddressCard /> {hasHealthCard ? "Access My Health Card" : "Get Health Card"}
                   </Link>
                 </li>
                 <li onClick={removeActive}>
-                  <Link to="/makeappoinment" style={{ color: 'white' }}><FaCalendarCheck /> Make Appointment</Link>
+                  <Link to="/makeappoinment" style={{ color: 'white' }} className={isActiveLink("/makeappoinment") ? styles.activeLink : ''}><FaCalendarCheck /> Make Appointment</Link>
                 </li>
                 <li onClick={removeActive}>
-                  <Link to="/appointmentview" style={{ color: 'white' }}><FaListAlt /> My Appointments</Link>
+                  <Link to="/appointmentview" style={{ color: 'white' }} className={isActiveLink("/appointmentview") ? styles.activeLink : ''}><FaListAlt /> My Appointments</Link>
                 </li>
+
               </>
             )}
             {user && user.userType === 'HSA' && (
               <>
                 <li onClick={removeActive}>
-                  <Link to="/staff" style={{ color: 'white' }}><FaUserMd /> Staff</Link>
+                  <Link to="/staff" style={{ color: 'white' }} className={isActiveLink("/staff") ? styles.activeLink : ''}><FaUserMd /> Staff</Link>
                 </li>
                 <li onClick={removeActive}>
-                  <Link to="/schedules" style={{ color: 'white' }}><FaCalendarAlt /> Schedules</Link>
+                  <Link to="/schedules" style={{ color: 'white' }} className={isActiveLink("/schedules") ? styles.activeLink : ''}><FaCalendarAlt /> Schedules</Link>
                 </li>
                 <li onClick={removeActive}>
-                  <Link to="/reports" style={{ color: 'white' }}><FaChartBar /> Reports</Link>
+                  <Link to="/reports" style={{ color: 'white' }} className={isActiveLink("/reports") ? styles.activeLink : ''}><FaChartBar /> Reports</Link>
                 </li>
               </>
             )}
             <div style={{ marginLeft: 'auto', display: 'flex' }}>
           {user ? (
                 <li>
-                  <button onClick={handleLogout} style={{ color: 'white', fontSize: '15px' }}>Logout</button>
+                  <button onClick={handleLogout} style={{ color: 'white', fontSize: '15px', background: 'red' }}>Logout</button>
             </li>
           ) : (
                   <li>
-                    <Link to="/login" style={{ color: 'white' }}><FaSignInAlt /> Login</Link>
+                    <Link to="/login" style={{ color: 'white' }} className={isActiveLink("/login") ? styles.activeLink : ''}><FaSignInAlt /> Login</Link>
             </li>
           )}
           {!user && (
                 <li>
-                  <Link to="/register" style={{ color: 'white' }}><FaUserPlus /> Register</Link>
+                  <Link to="/register" style={{ color: 'white' }} className={isActiveLink("/register") ? styles.activeLink : ''}><FaUserPlus /> Register</Link>
             </li>
           )}
             </div>

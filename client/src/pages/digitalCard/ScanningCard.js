@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { QrReader } from 'react-qr-reader'; // Correct import
 import axios from 'axios';
 import './ScanningCard.css';
+import { jsPDF } from 'jspdf';
 
 const ScanningCard = () => {
 	const [scanning, setScanning] = useState(false);
@@ -55,6 +56,40 @@ const ScanningCard = () => {
 		}
 	};
 
+	const downloadPdf = () => {
+		const doc = new jsPDF();
+		doc.setFontSize(18);
+		doc.text('Medical Report', 20, 20);
+
+		// Adding patient data to the PDF
+		if (patientData) {
+			doc.setFontSize(12);
+			doc.text(`Name: ${patientData.name}`, 20, 30);
+			doc.text(`Age: ${patientData.age}`, 20, 40);
+			doc.text(`Gender: ${patientData.gender}`, 20, 50);
+			doc.text(`NIC No: ${patientData.nicNo}`, 20, 60);
+			doc.text(`Blood Group: ${patientData.bloodGroup}`, 20, 70);
+			doc.text(`Email: ${patientData.email}`, 20, 80);
+			doc.text(`Medical Record Number: ${patientData.qrKey}`, 20, 90);
+
+			// You can continue adding more fields as needed
+			doc.text('---', 20, 100); // Just for separation
+			doc.text('Presenting Complaint: Persistent chest pain, shortness of breath, and fatigue for 2 days.', 20, 110);
+
+			// Adding the rest of the information (you can add more detailed info similarly)
+			doc.text('Investigations: ECG, Chest X-Ray, Blood Tests', 20, 120);
+			doc.text('Diagnosis: Likely unstable angina.', 20, 130);
+			doc.text('Plan: Admission to Cardiology Unit', 20, 140);
+
+			// Adding the doctor details at the end
+			doc.text(`Doctor's Name: Dr. Emily Carter`, 20, 150);
+			doc.text(`Date: 15th October 2024`, 20, 160);
+		}
+
+		// Save the PDF
+		doc.save('medical_report.pdf');
+	};
+
 	return (
 		<div className="scanning-card-container">
 			<h2>Scan QR Code or Enter QR Key</h2>
@@ -78,7 +113,7 @@ const ScanningCard = () => {
 								maxLength={8}
 								className="glass-input"
 							/>
-							<button type="submit" className="glass-button">Submit</button>
+							<button type="submit" className="glass-button">Check</button>
 						</form>
 						<button onClick={startScanning} className="glass-button">Scan QR Code</button>
 				</div>
@@ -87,6 +122,12 @@ const ScanningCard = () => {
 			{error && <p className="error">{error}</p>}
 			{patientData && (
 				<div className="patient-data">
+
+					<div style={{ textAlign: 'right' }}>
+						<button onClick={downloadPdf} className="glass-button" style={{ maxWidth: '300px' }}>
+							Download Medical Report
+						</button>
+					</div>
 					<h1 style={{ color: 'green', textAlign: 'center' }}>Medical Report</h1>
 					<div className="medical-report">
 						<p style={{ textAlign: 'left' }}><strong>Name:</strong> {patientData.name}</p>

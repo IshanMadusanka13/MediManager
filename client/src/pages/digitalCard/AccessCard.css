@@ -30,6 +30,8 @@
 	transition: background-color 0.3s;
 	font-size: medium;
 	font-weight: bold;
+	width: 150px;
+		margin-bottom: 10px;
 }
 
 .download-buttons button:hover {

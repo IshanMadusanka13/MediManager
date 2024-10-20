@@ -94,7 +94,15 @@ const AccessCard = () => {
 			<div className="card-content">
 				<div className="download-buttons">
 					<button onClick={handleDownloadPNG}>Download PNG</button>
-					<button onClick={handleDownloadPDF} style={{ background: 'red' }}>Download PDF</button>
+					<button
+						onClick={handleDownloadPDF}
+						onMouseEnter={(e) => e.target.style.background = '#8B0000'}
+						onMouseLeave={(e) => e.target.style.background = 'red'}
+						style={{ background: 'lightred', transition: 'background-color 0.3s ease' }}
+					>
+						Download PDF
+					</button>
+
 				</div>
 				<h2>My Health Card</h2>
 				<div className="qr-code" ref={qrRef}>
