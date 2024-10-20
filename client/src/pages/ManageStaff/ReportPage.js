@@ -303,10 +303,6 @@
       fontSize: '18px',
       color: '#666',
     },
-    tableContainer: {
-      marginTop: '30px',
-      overflowX: 'auto',
-    },
     subtitle: {
       fontSize: '24px',
       marginBottom: '15px',

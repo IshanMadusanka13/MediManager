@@ -57,42 +57,129 @@ const ScanningCard = () => {
 	};
 
 	const downloadPdf = () => {
-		const doc = new jsPDF();
-		doc.setFontSize(18);
-		doc.text('Medical Report', 20, 20);
+		const doc = new jsPDF({
+			margins: { top: 5, bottom: 5, left: 5, right: 5 }
+		});
 
-		// Adding patient data to the PDF
+		const pageHeight = doc.internal.pageSize.height;
+		let y = 20; // Start position on page
+
+		doc.setFontSize(18);
+		doc.setTextColor(0, 128, 0); // Set text color to green (RGB: 0, 128, 0)
+		doc.text('Medical Report', doc.internal.pageSize.width / 2, y, { align: 'center' });
+		y += 10; // Move down
+
+		doc.setTextColor(0, 0, 0); // Reset the text color to black
+
 		if (patientData) {
 			doc.setFontSize(12);
-			doc.text(`Name: ${patientData.name}`, 20, 30);
-			doc.text(`Age: ${patientData.age}`, 20, 40);
-			doc.text(`Gender: ${patientData.gender}`, 20, 50);
-			doc.text(`NIC No: ${patientData.nicNo}`, 20, 60);
-			doc.text(`Blood Group: ${patientData.bloodGroup}`, 20, 70);
-			doc.text(`Email: ${patientData.email}`, 20, 80);
-			doc.text(`Medical Record Number: ${patientData.qrKey}`, 20, 90);
 
-			// You can continue adding more fields as needed
-			doc.text('---', 20, 100); // Just for separation
-			doc.text('Presenting Complaint: Persistent chest pain, shortness of breath, and fatigue for 2 days.', 20, 110);
+			const addText = (text, increment = 10) => {
+				if (y + increment >= pageHeight - 10) {
+					doc.addPage();
+					y = 10; // Reset y to the top margin
+				}
+				doc.text(text, 5, y);
+				y += increment;
+			};
 
-			// Adding the rest of the information (you can add more detailed info similarly)
-			doc.text('Investigations: ECG, Chest X-Ray, Blood Tests', 20, 120);
-			doc.text('Diagnosis: Likely unstable angina.', 20, 130);
-			doc.text('Plan: Admission to Cardiology Unit', 20, 140);
+			addText(`Name: ${patientData.name}`);
+			addText(`Age: ${patientData.age} years old`);
+			addText(`Gender: ${patientData.gender}`);
+			addText(`NIC No: ${patientData.nicNo}`);
+			addText(`Blood Group: ${patientData.bloodGroup}`);
+			addText(`Email: ${patientData.email}`);
+			addText(`Medical Record Number: ${patientData.qrKey}`);
 
-			// Adding the doctor details at the end
-			doc.text(`Doctor's Name: Dr. Emily Carter`, 20, 150);
-			doc.text(`Date: 15th October 2024`, 20, 160);
+			// Presenting Complaint
+			doc.setFont('helvetica', 'bold');
+			addText('Presenting Complaint:');
+			doc.setFont('helvetica', 'normal');
+			addText('The patient presented with persistent chest pain, shortness of breath, and fatigue for the last two days.');
+
+			// History of Present Illness
+			doc.setFont('helvetica', 'bold');
+			addText('History of Present Illness:');
+			doc.setFont('helvetica', 'normal');
+			addText('The patient reports intermittent chest discomfort that worsened on exertion and improved with rest.');
+			addText('No history of nausea, vomiting, or dizziness. The patient also reports increased fatigue over the last week.');
+
+			// Past Medical History
+			doc.setFont('helvetica', 'bold');
+			addText('Past Medical History:');
+			doc.setFont('helvetica', 'normal');
+			addText('• Hypertension: Diagnosed 10 years ago.');
+			addText('• Type 2 Diabetes: Diagnosed 8 years ago, controlled on medication.');
+			addText('• Previous Surgeries: Appendectomy (2015).');
+			addText('• Medications: Metformin 500 mg, Amlodipine 10 mg.');
+			addText('• Allergies: No known drug allergies.');
+
+			// Family History
+			doc.setFont('helvetica', 'bold');
+			addText('Family History:');
+			doc.setFont('helvetica', 'normal');
+			addText('• Father: Passed away due to a heart attack at the age of 65.');
+			addText('• Mother: Hypertension, alive at 72 years.');
+
+			// Physical Examination
+			doc.setFont('helvetica', 'bold');
+			addText('Physical Examination:');
+			doc.setFont('helvetica', 'normal');
+			addText('General Appearance: Alert and oriented, in mild distress due to chest pain.');
+			addText('Vital Signs:');
+			addText('• Blood Pressure: 160/95 mmHg');
+			addText('• Heart Rate: 90 bpm');
+			addText('• Respiratory Rate: 20 breaths/min');
+			addText('• Temperature: 98.7°F');
+			addText('• Oxygen Saturation: 94% on room air');
+
+			// Cardiovascular and Respiratory Examination
+			addText('Cardiovascular Examination: Normal S1 and S2 sounds, no murmurs. Mild jugular venous distension noted.');
+			addText('Respiratory Examination: Clear to auscultation bilaterally, no wheezing or crackles.');
+
+			// Investigations
+			doc.setFont('helvetica', 'bold');
+			addText('Investigations:');
+			doc.setFont('helvetica', 'normal');
+			addText('• ECG: Sinus tachycardia, no acute ischemic changes.');
+			addText('• Chest X-Ray: Normal heart size, clear lung fields.');
+			addText('• Blood Tests: CBC: Within normal limits.');
+			addText('• Blood Sugar (Fasting): 120 mg/dL.');
+			addText('• Lipid Profile: Elevated LDL cholesterol at 160 mg/dL.');
+
+			// Diagnosis
+			doc.setFont('helvetica', 'bold');
+			addText('Diagnosis:');
+			doc.setFont('helvetica', 'normal');
+			addText('Likely unstable angina, hypertensive heart disease, and poorly controlled diabetes.');
+
+			// Plan
+			doc.setFont('helvetica', 'bold');
+			addText('Plan:');
+			doc.setFont('helvetica', 'normal');
+			addText('• Admission to Cardiology Unit for further evaluation and management.');
+			addText('• Start anti-anginal therapy with nitroglycerin and beta-blockers.');
+			addText('• Optimize diabetes control with insulin adjustments.');
+			addText('• Cardiac enzyme tests and repeat ECG to rule out myocardial infarction.');
+			addText('• Cardiology consult for potential coronary angiography.');
+
+			// Doctor's information and date
+			doc.setFont('helvetica', 'bold');
+			const pageWidth = doc.internal.pageSize.width;
+
+			doc.text(`Doctor's Name: Dr. Emily Carter`, pageWidth - 10, 500, { align: 'right' });
+			doc.text(`Date: 15th October 2024`, pageWidth - 10, 510, { align: 'right' });
 		}
 
 		// Save the PDF
 		doc.save('medical_report.pdf');
 	};
 
+
+
 	return (
-		<div className="scanning-card-container">
-			<h2>Scan QR Code or Enter QR Key</h2>
+		<div className="scanning-card-containerr">
+			<h22>Scan QR Code or Enter QR Key check medical report</h22>
 			{scanning ? (
 				<div style={{ width: '300px', height: '300px' }}>
 					<QrReader
@@ -102,7 +189,7 @@ const ScanningCard = () => {
 					/>
 				</div>
 			) : (
-					<div className="card-glass manual-entry">
+					<div className="card-glasss manual-entryy">
 						<form onSubmit={handleManualSubmit}>
 							<input
 								type="text"
@@ -113,9 +200,9 @@ const ScanningCard = () => {
 								maxLength={8}
 								className="glass-input"
 							/>
-							<button type="submit" className="glass-button">Check</button>
+							<button type="submit" className="glass-buttonn">Check</button>
 						</form>
-						<button onClick={startScanning} className="glass-button">Scan QR Code</button>
+						<button onClick={startScanning} className="glass-buttonn">Scan QR Code</button>
 				</div>
 			)}
 
