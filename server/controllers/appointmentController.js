@@ -7,8 +7,8 @@ exports.createAppointment = async (req, res) => {
         return res.status(400).json({ message: 'All fields are required' });
       }
       const appointment = new Appointment({ date, time, doctor, patient, reason });
-      await appointment.save();
-      res.status(201).json({ message: 'Appointment created successfully', appointment });
+      const savedAppointment = await appointment.save();
+      res.status(201).json({ message: 'Appointment created successfully', appointment: savedAppointment });
     } catch (error) {
       console.error('Error creating appointment:', error);
       res.status(400).json({ message: 'Error creating appointment', error: error.message });
@@ -46,7 +46,7 @@ exports.deleteAppointment = async (req, res) => {
 exports.getLastWeekAppointmentCount = async (req, res) => {
   try {
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-    console.log(sevenDaysAgo);
+    
     
     const appointments = await Appointment.aggregate([
       {

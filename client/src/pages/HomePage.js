@@ -1,15 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaUserMd, FaCalendarAlt, FaChartBar, FaCalendarCheck, FaListAlt } from 'react-icons/fa';
+import { FaAddressCard,FaBed,FaUserMd, FaCalendarAlt, FaChartBar, FaCalendarCheck, FaListAlt } from 'react-icons/fa';
+
+
+import axios from 'axios';
+import { BiQrScan } from "react-icons/bi";
+
 
 const HomePage = () => {
   const user = JSON.parse(localStorage.getItem('user'));
+  const [userr, setUser] = useState(null);
+  const [hasHealthCard, setHasHealthCard] = useState(false);
+  const navigatee = useNavigate();
+  const [isActive, setIsActive] = useState(false);
+  //add the active class
+  const toggleActiveClass = () => {
+    setIsActive(!isActive);
+  };
+  //clean up function to remove the active class
+  const removeActive = () => {
+    setIsActive(false)
+  }
+  useEffect(() => {
+    const userr = JSON.parse(localStorage.getItem('user'));
+    if (userr) {
+      setUser(userr);
+      checkHealthCard(userr.email);
+    }
+  }, [navigatee]);
+
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) {
       navigate('/login');
     }
   }, []);
+  const checkHealthCard = async (email) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/healthCard/exists/${email}`);
+      if (response.status === 200 && response.data.exists) {
+        setHasHealthCard(true);
+      } else {
+        setHasHealthCard(false);
+      }
+    } catch (error) {
+      console.error('Error checking health card:', error);
+    }
+  };
   return (
     <div style={styles.homePage}>
       <main style={styles.mainContent}>
@@ -27,25 +64,35 @@ const HomePage = () => {
                 link="/appointmentview"
               />
               <FeatureCard
-              title="Bed Arrenge"
-              description="See all bed arrengements"
-              icon={<FaListAlt />}
-              link="/bedshedule"
-            />
-            </div>
-          )}
-
-          {user && user.userType === "Patient" && (
-            <div style={styles.featureGrid}>
-              <FeatureCard
-                title="Make Appointment"
-                description="Schedule an appointment with a doctor"
-                icon={<FaCalendarCheck />}
-                link="/makeappoinment"
+                title="Bed Arrange"
+                description="See all bed arrangements"
+                icon={<FaBed />}
+                link="/bedshedule"
               />
-              
+              <FeatureCard
+                title="QR Scanner"
+                description="Scan QR codes"
+                icon={<BiQrScan />}
+                link="/scanningCard"
+              />
             </div>
           )}
+            {user && user.userType === "Patient" && (
+              <div style={styles.featureGrid}>
+                <FeatureCard
+                  title="Make Appointment"
+                  description="Schedule an appointment with a doctor"
+                  icon={<FaCalendarCheck />}
+                  link="/makeappoinment"
+                />
+                <FeatureCard
+                  title={hasHealthCard ? "Access My Health Card" : "Get Health Card"}
+                  description={hasHealthCard ? "View your digital health card" : "Apply for a digital health card"}
+                  icon={<BiQrScan />}
+                  link={hasHealthCard ? "/accessCard" : "/digitleHeathCard"}
+                />
+              </div>
+            )}
 
           {user && user.userType === "Doctor" && (
             <div style={styles.featureGrid}>
@@ -55,8 +102,13 @@ const HomePage = () => {
                 icon={<FaListAlt />}
                 link="/appointmentview"
               />
+              <FeatureCard
+                title="QR Scanner"
+                description="Scan QR codes"
+                icon={<BiQrScan />}
+                link="/scanningCard"
+              />
             </div>
-            
           )}
 
           {user && user.userType === "HSA" && (

@@ -66,7 +66,7 @@ const Analyze = () => {
 
   return (
     <div className="analyze-container">
-      <h1 className="analyze-title">Appointment Analysis</h1>
+      <h1 style={styles.title}>Appointment Analysis</h1>
       <div className="chart-container">
         <Line data={chartData} options={options} />
       </div>
@@ -81,8 +81,10 @@ const styles = {
       padding: '20px',
     },
     title: {
-      fontSize: '24px',
-      marginBottom: '20px',
+      fontSize: '40px',
+      marginBottom: '10px',
+      marginTop: '10px',
+      marginLeft: '10px',
       color: '#333',
     },
     form: {
@@ -122,7 +124,9 @@ const styles = {
       borderRadius: '10px',
       marginBottom: '30px',
     },
+   
   };
 
   
+
 export default Analyze;
