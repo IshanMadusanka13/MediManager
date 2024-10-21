@@ -12,9 +12,16 @@ const getDischargeByPatientId = async (patientId) => {
     return response.data;
 };
 
+// New method to mark a discharge as paid
+const markDischargeAsPaid = async (dischargeId) => {
+    const response = await axios.put(`${API_URL}/discharge/mark-paid/${dischargeId}`);
+    return response.data;
+};
+
 const dischargeService = {
     createDischarge,
     getDischargeByPatientId,
+    markDischargeAsPaid, // Add the new method to the service
 };
 
 export default dischargeService;

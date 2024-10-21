@@ -42,8 +42,9 @@ const App = () => {
             <Route path="/bedshedule" element={<WardManagePage />} />
             <Route path="/discharge/:patientId" element={<PatientDischarge />} />
             <Route path="/analyze" element={<Analyze />} />
-            <Route path='/paymentPage/:amount' element={<PaymentPage />} />
+            <Route path='/paymentPage/:amount/:id' element={<PaymentPage />} />
             <Route path='/payments' element={<PendingPaymentView />} />
+
 
           </Routes>
         </main>
