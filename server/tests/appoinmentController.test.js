@@ -17,7 +17,8 @@ describe('Appointment Controller', () => {
       date: '2023-05-20',
       time: '10:00',
       doctor: 'Dr. Smith',
-      patient: 'John Doe'
+      patient: 'John Doe',
+      reason: 'Checkup'
     };
 
     Appointment.prototype.save.mockResolvedValue(mockAppointment);

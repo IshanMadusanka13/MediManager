@@ -82,7 +82,8 @@ describe('Discharge Controller', () => {
 			patientId: '123456',
 			dischargeDate: new Date(),
 			amountPaid: 200,
-			notes: 'Patient discharged successfully'
+			notes: 'Patient discharged successfully',
+			paid: 'false'
 		});
 		await discharge.save();
 
